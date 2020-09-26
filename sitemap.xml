@@ -2,7 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://wssjdi.github.io/about/</loc>
+    <loc>https://wssjdi.github.io/gallery/marvel</loc>
+    
+    <lastmod>2020-09-26</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/gallery/ohmygirl</loc>
+    
+    <lastmod>2020-09-26</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/gallery/wallpaper</loc>
+    
+    <lastmod>2020-09-26</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/posts/bbd277ee/</loc>
+    
+    <lastmod>2020-09-26</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/posts/4a17b156/</loc>
     
     <lastmod>2020-09-26</lastmod>
     
@@ -16,7 +44,7 @@
   </url>
   
   <url>
-    <loc>https://wssjdi.github.io/posts/bbd277ee/</loc>
+    <loc>https://wssjdi.github.io/about/</loc>
     
     <lastmod>2020-09-26</lastmod>
     
@@ -31,13 +59,6 @@
   
   <url>
     <loc>https://wssjdi.github.io/music/</loc>
-    
-    <lastmod>2020-09-26</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wssjdi.github.io/gallery/ohmygirl</loc>
     
     <lastmod>2020-09-26</lastmod>
     
@@ -89,13 +110,6 @@
     <loc>https://wssjdi.github.io/archives/</loc>
     
     <lastmod>2020-09-26</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wssjdi.github.io/posts/4a17b156/</loc>
-    
-    <lastmod>2020-09-25</lastmod>
     
   </url>
   
