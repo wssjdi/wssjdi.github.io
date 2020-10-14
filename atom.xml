@@ -6,7 +6,7 @@
   <link href="https://wssjdi.github.io/atom.xml" rel="self"/>
   
   <link href="https://wssjdi.github.io/"/>
-  <updated>2020-09-30T04:19:41.539Z</updated>
+  <updated>2020-10-14T09:27:02.149Z</updated>
   <id>https://wssjdi.github.io/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>go mod解决依赖无法下载的问题</title>
+    <link href="https://wssjdi.github.io/posts/fd72e7c1/"/>
+    <id>https://wssjdi.github.io/posts/fd72e7c1/</id>
+    <published>2020-10-14T09:19:07.352Z</published>
+    <updated>2020-10-14T09:27:02.149Z</updated>
+    
+    
+    <summary type="html">go mod解决依赖无法下载的问题</summary>
+    
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/tags/go/"/>
+    
+    <category term="go mod" scheme="https://wssjdi.github.io/tags/go-mod/"/>
+    
+    <category term="依赖" scheme="https://wssjdi.github.io/tags/%E4%BE%9D%E8%B5%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>SpringBoot+Vue前后端分离开发合并部署</title>
     <link href="https://wssjdi.github.io/posts/77ca7534/"/>
     <id>https://wssjdi.github.io/posts/77ca7534/</id>
     <published>2020-09-29T09:58:46.000Z</published>
-    <updated>2020-09-30T04:19:41.539Z</updated>
+    <updated>2020-10-14T09:18:33.612Z</updated>
     
     
     <summary type="html">SpringBoot+Vue前后端分离开发合并部署</summary>

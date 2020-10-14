@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://wssjdi.github.io/posts/fd72e7c1/</loc>
+    
+    <lastmod>2020-10-14</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://wssjdi.github.io/posts/77ca7534/</loc>
     
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     
   </url>
   
@@ -123,7 +130,7 @@
 
   <url>
     <loc>https://wssjdi.github.io/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -131,98 +138,119 @@
   
   <url>
     <loc>https://wssjdi.github.io/tags/Hexo/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/Blog/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/linux/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/redis/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/mysql/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/docker/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/nginx/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/SpringBoot/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/Vue/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/Maven/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/java/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/pom-xml/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/tags/subject/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/tags/go/</loc>
+    <lastmod>2020-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/tags/go-mod/</loc>
+    <lastmod>2020-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/tags/%E4%BE%9D%E8%B5%96/</loc>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -231,28 +259,35 @@
   
   <url>
     <loc>https://wssjdi.github.io/categories/Hexo/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/categories/document/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/categories/SpringBoot-Vue/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://wssjdi.github.io/categories/blog/</loc>
-    <lastmod>2020-09-30</lastmod>
+    <lastmod>2020-10-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://wssjdi.github.io/categories/go/</loc>
+    <lastmod>2020-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
