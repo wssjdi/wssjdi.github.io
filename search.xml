@@ -362,4 +362,141 @@
         <tag>前后端分离</tag>
       </tags>
   </entry>
+  <entry>
+    <title>go test单元测试及基准测试</title>
+    <url>/posts/2910ec3f/</url>
+    <content><![CDATA[<p>Go语言拥有一套单元测试和性能测试系统，仅需要添加很少的代码就可以快速测试一段需求代码。</p>
+<h1 id="go-test命令"><a href="#go-test命令" class="headerlink" title="go test命令"></a>go test命令</h1><p>go test 命令，会自动读取源码目录下面名为 *_test.go 的文件，生成并运行测试用的可执行文件。输出的信息类似下面所示的样子：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">D:\go_workspace\dubbo-go-proxy\pkg\common\yaml&gt;go test</span><br><span class="line">go: downloading gopkg.in/yaml.v2 v2.2.8</span><br><span class="line">go: downloading github.com/stretchr/testify v1.5.1</span><br><span class="line">go: downloading github.com/pkg/errors v0.9.1</span><br><span class="line">go: downloading github.com/pmezard/go-difflib v1.0.0</span><br><span class="line">go: downloading github.com/davecgh/go-spew v1.1.1</span><br><span class="line">PASS</span><br><span class="line">ok      github.com/dubbogo/dubbo-go-proxy/pkg/common/yaml       0.952s</span><br></pre></td></tr></tbody></table></figure>
+<p>性能测试系统可以给出代码的性能数据，帮助测试者分析性能问题。</p>
+<p>提示</p>
+<p>单元测试<code>（unit testing）</code>，是指对软件中的最小可测试单元进行检查和验证。对于单元测试中单元的含义，一般要根据实际情况去判定其具体含义，如 <code>C</code> 语言中单元指一个函数，<code>Java</code> 里单元指一个类，图形化的软件中可以指一个窗口或一个菜单等。总的来说，单元就是人为规定的最小的被测功能模块。</p>
+<h2 id="单元测试——测试和验证代码的框架"><a href="#单元测试——测试和验证代码的框架" class="headerlink" title="单元测试——测试和验证代码的框架"></a>单元测试——测试和验证代码的框架</h2><p>要开始一个单元测试，需要准备一个 <code>go</code> 源码文件，在命名文件时需要让文件必须以 <code>_test</code> 结尾。默认的情况下，<code>go test</code> 命令不需要任何的参数，它会自动把你源码包下面所有 <code>test</code> 文件测试完毕，当然你也可以带上参数。</p>
+<p>常用的参数：</p>
+<ul>
+<li>-bench regexp 执行相应的 <code>benchmarks</code>，例如 <code>-bench=.</code>；</li>
+<li>-cover 开启测试覆盖率；</li>
+<li>-run regexp 只运行 <code>regexp</code> 匹配的函数，例如 <code>-run=Array</code> 那么就执行包含有 <code>Array</code> 开头的函数；</li>
+<li>-v 显示测试的详细命令。</li>
+</ul>
+<p>单元测试源码文件可以由多个测试用例组成，每个测试用例函数需要以<code>Test</code>为前缀，例如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package yaml</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	"path/filepath"</span><br><span class="line">	"testing"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	"github.com/stretchr/testify/assert"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func TestUnmarshalYML(t *testing.T) {</span><br><span class="line">	c := &amp;Config{}</span><br><span class="line">	b, err := LoadYMLConfig("./testdata/config.yml")</span><br><span class="line">	assert.NoError(t, err)</span><br><span class="line">	err = UnmarshalYML(b, c)</span><br><span class="line">	assert.NoError(t, err)</span><br><span class="line">    t.Log(c.StrTest)</span><br><span class="line">	assert.Equal(t, "strTest", c.StrTest)</span><br><span class="line">	assert.Equal(t, 11, c.IntTest)</span><br><span class="line">	assert.Equal(t, false, c.BooleanTest)</span><br><span class="line">	assert.Equal(t, "childStrTest", c.ChildConfig.StrTest)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">type Config struct {</span><br><span class="line">	StrTest     string      `yaml:"strTest" default:"default" json:"strTest,omitempty" property:"strTest"`</span><br><span class="line">	IntTest     int         `default:"109"  yaml:"intTest" json:"intTest,omitempty" property:"intTest"`</span><br><span class="line">	BooleanTest bool        `yaml:"booleanTest" default:"true" json:"booleanTest,omitempty"`</span><br><span class="line">	ChildConfig ChildConfig `yaml:"child" json:"child,omitempty"`</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">type ChildConfig struct {</span><br><span class="line">	StrTest string `default:"strTest" default:"default" yaml:"strTest"  json:"strTest,omitempty"`</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>测试用例文件不会参与正常源码编译，不会被包含到可执行文件中。</li>
+<li>测试用例文件使用 <code>go test</code> 指令来执行，没有也不需要 <code>main()</code> 作为函数入口。所有在以 <code>_test</code> 结尾的源码内以 <code>Test</code> 开头的函数会自动被执行。</li>
+<li>测试用例可以不传入 <code>*testing.T</code> 参数。</li>
+</ul>
+<p>代码说明如下：</p>
+<ul>
+<li>第 10 行，单元测试文件 <code>(*_test.go)</code> 里的测试入口必须以 <code>Test</code> 开始，参数为 <code>*testing.T</code> 的函数。一个单元测试文件可以有多个测试入口。</li>
+<li>第 16 行，使用 <code>testing</code> 包的 <code>T</code> 结构提供的 <code>Log()</code> 方法打印字符串。</li>
+</ul>
+<h3 id="单元测试命令行"><a href="#单元测试命令行" class="headerlink" title="单元测试命令行"></a>单元测试命令行</h3><p>单元测试使用 go test 命令启动，例如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">D:\go_workspace\dubbo-go-proxy\pkg\common\yaml&gt;go test</span><br><span class="line">PASS</span><br><span class="line">ok      github.com/dubbogo/dubbo-go-proxy/pkg/common/yaml       0.627s</span><br><span class="line">D:\go_workspace\dubbo-go-proxy\pkg\common\yaml&gt;go test -v -run TestUnmarshalYML$</span><br><span class="line">=== RUN   TestUnmarshalYML</span><br><span class="line">--- PASS: TestUnmarshalYML (0.00s)</span><br><span class="line">PASS</span><br><span class="line">ok      github.com/dubbogo/dubbo-go-proxy/pkg/common/yaml       0.637s</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 1 行，如果在 <code>go test</code> 后跟了单元测试源文件，表示测试这个文件里的所有测试用例，没有则测试所有的单元测试源文件。</li>
+<li>第 3 行，显示测试结果，  <code>ok</code> 表示测试通过，<code>github.com/dubbogo/dubbo-go-proxy/pkg/common/yaml</code> 是测试用例的包名，<code>0.627s</code> 表示测试花费的时间。</li>
+<li>第 4 行，显示在附加参数中添加了<code>-v</code>，可以让测试时显示详细的流程，添加<code>-run</code>，指定执行的测试用例<code>TestUnmarshalYML$</code>匹配正则表达式。</li>
+<li>第 5 行，表示开始运行名叫 <code>TestUnmarshalYML</code> 的测试用例。</li>
+<li>第 6 行，表示已经运行完 <code>TestUnmarshalYML</code> 的测试用例，PASS 表示测试成功。</li>
+</ul>
+<p><code>-run</code>跟随的测试用例的名称支持正则表达式，使用<code>-run TestUnmarshalYML$</code>即可只执行 <code>TestUnmarshalYML</code> 测试用例，如果不带最后的<code>$</code>，则执行所有以<code>TestUnmarshalYML</code>为开头的测试用例。</p>
+<h3 id="标记单元测试结果"><a href="#标记单元测试结果" class="headerlink" title="标记单元测试结果"></a>标记单元测试结果</h3><p>当需要终止当前测试用例时，可以使用 <code>t.FailNow()</code>。</p>
+<p>还有一种只标记错误不终止测试的方法 <code>t.Fail()</code> ，调用 Fail() 后测试结果标记为失败，但是后续代码依然会被程序执行。</p>
+<h3 id="单元测试日志"><a href="#单元测试日志" class="headerlink" title="单元测试日志"></a>单元测试日志</h3><p>每个测试用例可能并发执行，使用 testing.T 提供的日志输出可以保证日志跟随这个测试上下文一起打印输出。testing.T 提供了几种日志输出方法，详见下表所示。</p>
+<div align="center">
+  单元测试框架提供的日志方法<table>
+    <thead>
+      <tr></tr>
+    </thead>
+    <thead>
+      <tr>
+        <th align="center">方法</th>
+        <th align="center">备注</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="center"><strong>Log</strong></td>
+        <td align="center">打印日志，同时结束测试</td>
+      </tr>
+      <tr>
+        <td align="center"><strong>Logf</strong></td>
+        <td align="center">格式化打印日志，同时结束测试</td>
+      </tr>
+      <tr>
+        <td align="center"><strong>Error</strong></td>
+        <td align="center">打印错误日志，同时结束测试</td>
+      </tr>
+      <tr>
+        <td align="center"><strong>Errorf</strong></td>
+        <td align="center">格式化打印错误日志，同时结束测试</td>
+      </tr>
+      <tr>
+        <td align="center"><strong>Fatal</strong></td>
+        <td align="center">打印致命日志，同时结束测试</td>
+      </tr>
+      <tr>
+        <td align="center"><strong>Fatalf</strong></td>
+        <td align="center">格式化打印致命日志，同时结束测试</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p>开发者可以根据实际需要选择合适的日志。</p>
+<h2 id="基准测试"><a href="#基准测试" class="headerlink" title="基准测试"></a>基准测试</h2><h3 id="简单案例"><a href="#简单案例" class="headerlink" title="简单案例"></a>简单案例</h3><p>go test -v -bench=. benchmark_test.go</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">D:\go_workspace\dubbo-go-proxy\pkg\common\benchmark&gt;go test -v -bench=. benchmark_test.go</span><br><span class="line">goos: windows</span><br><span class="line">goarch: amd64</span><br><span class="line">Benchmark_Add</span><br><span class="line">Benchmark_Add-4         1000000000               0.341 ns/op</span><br><span class="line">PASS</span><br><span class="line">ok      command-line-arguments  0.977s</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 1 行的-bench=.表示运行 <code>benchmark_test.go</code> 文件里的所有基准测试，和单元测试中的<code>-run</code>类似。</li>
+<li>第 5 行中显示基准测试名称，1000000000 表示测试的次数，也就是 <code>testing.B</code> 结构中提供给程序使用的 N。<code>0.341 ns/op</code> 表示每一个操作耗费多少时间（纳秒）。</li>
+</ul>
+<p>注意：<code>Windows</code> 下使用 <code>go test</code> 命令行时，<code>-bench=.</code> 应写为 <code>-bench="."</code>。</p>
+<h3 id="基准测试原理"><a href="#基准测试原理" class="headerlink" title="基准测试原理"></a>基准测试原理</h3><p>基准测试框架对一个测试用例的默认测试时间是 1 秒。开始测试时，当以 Benchmark 开头的基准测试用例函数返回时还不到 1 秒，那么 testing.B 中的 N 值将按 1、2、5、10、20、50……递增，同时以递增后的值重新调用基准测试用例函数。</p>
+<h3 id="自定义测试时间"><a href="#自定义测试时间" class="headerlink" title="自定义测试时间"></a>自定义测试时间</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">D:\go_workspace\dubbo-go-proxy\pkg\common\benchmark&gt;go test -v -bench=. -benchtime=5s benchmark_test.go</span><br><span class="line">goos: windows</span><br><span class="line">goarch: amd64</span><br><span class="line">Benchmark_Add</span><br><span class="line">Benchmark_Add-4         1000000000               0.351 ns/op</span><br><span class="line">PASS</span><br><span class="line">ok      command-line-arguments  0.902s</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="测试内存"><a href="#测试内存" class="headerlink" title="测试内存"></a>测试内存</h3><p>基准测试可以对一段代码可能存在的内存分配进行统计，下面是一段使用字符串格式化的函数，内部会进行一些分配操作。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func Benchmark_Alloc(b *testing.B) {</span><br><span class="line">    for i := 0; i &lt; b.N; i++ {</span><br><span class="line">        fmt.Sprintf("%d", i)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>在命令行中添加-benchmem参数以显示内存分配情况，参见下面的指令：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">D:\go_workspace\dubbo-go-proxy\pkg\common\benchmark&gt;go test -v -bench=Alloc -benchmem benchmark_test.go</span><br><span class="line">goos: windows</span><br><span class="line">goarch: amd64</span><br><span class="line">Benchmark_Alloc</span><br><span class="line">Benchmark_Alloc-4        8610186               120 ns/op              16 B/op          2 allocs/op</span><br><span class="line">PASS</span><br><span class="line">ok      command-line-arguments  1.760s</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 1 行的代码中-bench后添加了 <code>Alloc</code>，指定只测试 <code>Benchmark_Alloc()</code> 函数。</li>
+<li>第 5 行代码的 <code>16 B/op</code>表示每一次调用需要分配 <code>16</code> 个字节，<code>2 allocs/op</code> 表示每一次调用有两次分配。</li>
+</ul>
+<p>开发者根据这些信息可以迅速找到可能的分配点，进行优化和调整。</p>
+<h3 id="控制计时器"><a href="#控制计时器" class="headerlink" title="控制计时器"></a>控制计时器</h3><p>有些测试需要一定的启动和初始化时间，如果从 Benchmark() 函数开始计时会很大程度上影响测试结果的精准性。testing.B 提供了一系列的方法可以方便地控制计时器，从而让计时器只在需要的区间进行测试。我们通过下面的代码来了解计时器的控制。</p>
+<p>基准测试中的计时器控制<br></p><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func Benchmark_Add_TimerControl(b *testing.B) {</span><br><span class="line">	// 重置计时器</span><br><span class="line">	b.ResetTimer()</span><br><span class="line">	// 停止计时器</span><br><span class="line">	b.StopTimer()</span><br><span class="line">	// 开始计时器</span><br><span class="line">	b.StartTimer()</span><br><span class="line">	var n int</span><br><span class="line">	for i := 0; i &lt; b.N; i++ {</span><br><span class="line">		n++</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure><p></p>
+<p>从 <code>Benchmark()</code> 函数开始，<code>Timer</code> 就开始计数。<code>StopTimer()</code> 可以停止这个计数过程，做一些耗时的操作，通过 <code>StartTimer()</code> 重新开始计时。<code>ResetTimer()</code> 可以重置计数器的数据。</p>
+<p>计数器内部不仅包含耗时数据，还包括内存分配的数据。</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
+        <tag>go test</tag>
+        <tag>单元测试</tag>
+        <tag>基准测试</tag>
+      </tags>
+  </entry>
 </search>

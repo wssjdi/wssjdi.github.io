@@ -6,7 +6,7 @@
   <link href="https://wssjdi.github.io/atom.xml" rel="self"/>
   
   <link href="https://wssjdi.github.io/"/>
-  <updated>2020-10-14T09:27:02.149Z</updated>
+  <updated>2020-10-15T07:19:40.222Z</updated>
   <id>https://wssjdi.github.io/</id>
   
   <author>
@@ -20,8 +20,8 @@
     <title>go mod解决依赖无法下载的问题</title>
     <link href="https://wssjdi.github.io/posts/fd72e7c1/"/>
     <id>https://wssjdi.github.io/posts/fd72e7c1/</id>
-    <published>2020-10-14T09:19:07.352Z</published>
-    <updated>2020-10-14T09:27:02.149Z</updated>
+    <published>2020-10-14T08:20:55.000Z</published>
+    <updated>2020-10-15T07:19:40.222Z</updated>
     
     
     <summary type="html">go mod解决依赖无法下载的问题</summary>
@@ -36,6 +36,31 @@
     <category term="go mod" scheme="https://wssjdi.github.io/tags/go-mod/"/>
     
     <category term="依赖" scheme="https://wssjdi.github.io/tags/%E4%BE%9D%E8%B5%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>go test单元测试及基准测试</title>
+    <link href="https://wssjdi.github.io/posts/2910ec3f/"/>
+    <id>https://wssjdi.github.io/posts/2910ec3f/</id>
+    <published>2020-10-14T07:19:55.000Z</published>
+    <updated>2020-10-15T07:19:57.538Z</updated>
+    
+    
+    <summary type="html">go test单元测试</summary>
+    
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/tags/go/"/>
+    
+    <category term="go test" scheme="https://wssjdi.github.io/tags/go-test/"/>
+    
+    <category term="单元测试" scheme="https://wssjdi.github.io/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="基准测试" scheme="https://wssjdi.github.io/tags/%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
