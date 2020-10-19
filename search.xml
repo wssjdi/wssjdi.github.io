@@ -499,4 +499,1012 @@
         <tag>基准测试</tag>
       </tags>
   </entry>
+  <entry>
+    <title>go dubbo</title>
+    <url>/posts/3498a470/</url>
+    <content><![CDATA[<p>go语言使用dubbo-go接入现有的dubbo服务</p>
+<h2 id="注册中心使用-zookeeper-，序列化使用-hessian2"><a href="#注册中心使用-zookeeper-，序列化使用-hessian2" class="headerlink" title="注册中心使用 zookeeper ，序列化使用 hessian2"></a>注册中心使用 <code>zookeeper</code> ，序列化使用 <code>hessian2</code></h2><p>目前我司在使用 dubbo 的过程使用的 zookeeper 作为注册中心，序列化是 hessian2 ，所以我们要做如下初始化：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">import (</span><br><span class="line">    _ "github.com/apache/dubbo-go/common/proxy/proxy_factory"</span><br><span class="line">    _ "github.com/apache/dubbo-go/registry/protocol"</span><br><span class="line"></span><br><span class="line">    _ "github.com/apache/dubbo-go/filter/impl"</span><br><span class="line"></span><br><span class="line">    _ "github.com/apache/dubbo-go/cluster/cluster_impl"</span><br><span class="line">    _ "github.com/apache/dubbo-go/cluster/loadbalance"</span><br><span class="line">    _ "github.com/apache/dubbo-go/registry/zookeeper"</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><p>由于我是接入客户端，所以我这边只需要配置 <code>ConsumerConfig</code></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">dubbo:</span><br><span class="line">    # client</span><br><span class="line">    request_timeout: "3s"</span><br><span class="line">    # connect timeout</span><br><span class="line">    connect_timeout: "3s"</span><br><span class="line">    check: true</span><br><span class="line">    application:</span><br><span class="line">        organization: "wssjdi.com"</span><br><span class="line">        name: "soa.sso.ITokenService"</span><br><span class="line">        module: "dubbogo token service client"</span><br><span class="line">        version: "1.0.0"</span><br><span class="line">        owner: "wssjdi"</span><br><span class="line">    registries:</span><br><span class="line">        "localzk":</span><br><span class="line">            protocol: "zookeeper"</span><br><span class="line">            timeout: "3s"</span><br><span class="line">            address: "10.100.156.17:2181"</span><br><span class="line">            username: ""</span><br><span class="line">            password: ""</span><br><span class="line">    references:</span><br><span class="line">        "ITokenService":</span><br><span class="line">            registry: "localzk"</span><br><span class="line">            protocol: "dubbo"</span><br><span class="line">            interface: "com.wssjdi.soa.sso.ITokenService"</span><br><span class="line">            version: "1.0.0"</span><br><span class="line">            methods:</span><br><span class="line">                - name: "validate"</span><br><span class="line">            retries: "3"</span><br></pre></td></tr></tbody></table></figure>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
+        <tag>go dubbo</tag>
+        <tag>dubbo</tag>
+        <tag>rpc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>go 语言基础</title>
+    <url>/posts/f628ea56/</url>
+    <content><![CDATA[<h2 id="变量的声明"><a href="#变量的声明" class="headerlink" title="变量的声明"></a>变量的声明</h2><p><code>Go</code>语言是静态类型语言，因此变量<code>（variable）</code>是有明确类型的，编译器也会检查变量类型的正确性。在数学概念中，变量表示没有固定值且可改变的数。但从计算机系统实现角度来看，变量是一段或多段用来存储数据的内存。</p>
+<p>声明变量的一般形式是使用 <code>var</code> 关键字：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var name type</span><br></pre></td></tr></tbody></table></figure>
+<p>其中，<code>var</code> 是声明变量的关键字，<code>name</code> 是变量名，<code>type</code> 是变量的类型。</p>
+<p>需要注意的是，<code>Go</code>语言和许多编程语言不同，它在声明变量时将变量的类型放在变量的名称之后。这样做的好处就是可以避免像C语言中那样含糊不清的声明形式，例如：<code>int* a, b</code>; 。其中只有 <code>a</code> 是指针而 <code>b</code> 不是。如果你想要这两个变量都是指针，则需要将它们分开书写。而在 <code>Go</code> 中，则可以和轻松地将它们都声明为指针类型：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var a, b *int</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h3><p>Go语言的基本类型有：</p>
+<ul>
+<li>bool</li>
+<li>string</li>
+<li>int、int8、int16、int32、int64</li>
+<li>uint、uint8、uint16、uint32、uint64、uintptr</li>
+<li>byte // uint8 的别名</li>
+<li>rune // int32 的别名 代表一个 Unicode 码</li>
+<li>float32、float64</li>
+<li>complex64、complex128</li>
+</ul>
+<p>当一个变量被声明之后，系统自动赋予它该类型的零值：<code>int</code> 为 <code>0</code>，<code>float</code> 为 <code>0.0</code>，<code>bool</code> 为 <code>false</code>，<code>string</code> 为空字符串，指针为 <code>nil</code> 等。所有的内存在 <code>Go</code> 中都是经过初始化的。</p>
+<p>变量的命名规则遵循骆驼命名法，即首个单词小写，每个新单词的首字母大写，例如：<code>numShips</code> 和 <code>startDate</code> 。</p>
+<p>变量的声明有几种形式，通过下面几节进行整理归纳。</p>
+<h3 id="标准格式"><a href="#标准格式" class="headerlink" title="标准格式"></a>标准格式</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var 变量名 变量类型</span><br></pre></td></tr></tbody></table></figure>
+<p>变量声明以关键字 var 开头，后置变量类型，行尾无须分号。</p>
+<h3 id="批量格式"><a href="#批量格式" class="headerlink" title="批量格式"></a>批量格式</h3><p>觉得每行都用 var 声明变量比较烦琐？没关系，还有一种为懒人提供的定义变量的方法：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var (</span><br><span class="line">    a int</span><br><span class="line">    b string</span><br><span class="line">    c []float32</span><br><span class="line">    d func() bool</span><br><span class="line">    e struct {</span><br><span class="line">        x int</span><br><span class="line">    }</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
+<p>使用关键字 var 和括号，可以将一组变量定义放在一起。</p>
+<h3 id="简短格式"><a href="#简短格式" class="headerlink" title="简短格式"></a>简短格式</h3><p>除 var 关键字外，还可使用更加简短的变量定义和初始化语法。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">名字 := 表达式</span><br></pre></td></tr></tbody></table></figure>
+<p>需要注意的是，简短模式<code>（short variable declaration）</code>有以下限制：</p>
+<ul>
+<li>定义变量，同时显式初始化。</li>
+<li>不能提供数据类型。</li>
+<li>只能用在函数内部。</li>
+</ul>
+<p>和 var 形式声明语句一样，简短变量声明语句也可以用来声明和初始化一组变量：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">i, j := 0, 1</span><br></pre></td></tr></tbody></table></figure>
+<p>演示简短格式变量声明的基本样式。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">   x:=100</span><br><span class="line">   a,s:=1, "abc"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>因为简洁和灵活的特点，简短变量声明被广泛用于大部分的局部变量的声明和初始化。<code>var</code> 形式的声明语句往往是用于需要显式指定变量类型地方，或者因为变量稍后会被重新赋值而初始值无关紧要的地方。</p>
+<h2 id="变量的初始化"><a href="#变量的初始化" class="headerlink" title="变量的初始化"></a>变量的初始化</h2><p><code>Go</code>语言在声明变量时，自动对变量对应的内存区域进行初始化操作。每个变量会初始化其类型的默认值，例如：</p>
+<ul>
+<li>整型和浮点型变量的默认值为 <code>0</code> 和 <code>0.0</code>。</li>
+<li>字符串变量的默认值为空字符串。</li>
+<li>布尔型变量默认为 <code>bool</code>。</li>
+<li>切片、函数、指针变量的默认为 <code>nil</code>。</li>
+</ul>
+<p>当然，依然可以在变量声明时赋予变量一个初始值。</p>
+<p>回顾C语言</p>
+<p>在C语言中，变量在声明时，并不会对变量对应内存区域进行清理操作。此时，变量值可能是完全不可预期的结果。开发者需要习惯在使用C语言进行声明时要初始化操作，稍有不慎，就会造成不可预知的后果。</p>
+<p>在网络上只有程序员才能看懂的“烫烫烫”和“屯屯屯”的梗，就来源于 C/C++ 中变量默认不初始化。</p>
+<p>微软的 VC 编译器会将未初始化的栈空间以 16 进制的 0xCC 填充，而未初始化的堆空间使用 0xCD 填充，而 0xCCCC 和 0xCDCD 在中文的 GB2312 编码中刚好对应“烫”和“屯”字。</p>
+<p>因此，如果一个字符串没有结束符\0，直接输出的内存数据转换为字符串就刚好对应“烫烫烫”和“屯屯屯”。</p>
+<h3 id="变量初始化的标准格式"><a href="#变量初始化的标准格式" class="headerlink" title="变量初始化的标准格式"></a>变量初始化的标准格式</h3><figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var 变量名 类型 = 表达式</span><br></pre></td></tr></tbody></table></figure>
+<p>例如，游戏中，玩家的血量初始值为100。可以这样写：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var hp int = 100</span><br></pre></td></tr></tbody></table></figure>
+<p>这句代码中，<code>hp</code> 为变量名，类型为 <code>int</code>，<code>hp</code> 的初始值为 <code>100</code>。</p>
+<p>上面代码中，<code>100</code> 和 <code>int</code> 同为 <code>int</code> 类型，<code>int</code> 可以认为是冗余信息，因此可以进一步简化初始化的写法。</p>
+<h3 id="编译器推导类型的格式"><a href="#编译器推导类型的格式" class="headerlink" title="编译器推导类型的格式"></a>编译器推导类型的格式</h3><p>在标准格式的基础上，将 int 省略后，编译器会尝试根据等号右边的表达式推导 hp 变量的类型。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var hp = 100</span><br></pre></td></tr></tbody></table></figure>
+<p>等号右边的部分在编译原理里被称做右值（rvalue）。</p>
+<p>编译器根据右值推导变量类型完成初始化的例子。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var attack = 40</span><br><span class="line">var defence = 20</span><br><span class="line">var damageRate float32 = 0.17</span><br><span class="line">var damage = float32(attack-defence) * damageRate</span><br><span class="line">fmt.Println(damage)</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>1</code> 和 <code>2</code> 行，右值为整型，<code>attack</code> 和 <code>defence</code> 变量的类型为 int。</li>
+<li>第 <code>3</code> 行，表达式的右值中使用了 <code>0.17</code>。由于<code>Go</code>语言和<code>C</code>语言一样，编译器会尽量提高精确度，以避免计算中的精度损失。所以这里如果不指定 <code>damageRate</code> 变量的类型，<code>Go</code>语言编译器会将 <code>damageRate</code> 类型推导为 <code>float64</code>，我们这里不需要 <code>float64</code> 的精度，所以需要强制指定类型为 <code>float32</code>。</li>
+<li><p>第 <code>4</code> 行，将 <code>attack</code> 和 <code>defence</code> 相减后的数值结果依然为整型，使用 <code>float32()</code> 将结果转换为 <code>float32</code> 类型，再与 <code>float32</code> 类型的 <code>damageRate</code> 相乘后，<code>damage</code> 类型也是 <code>float32</code> 类型。</p>
+<p><strong><em>提示：<code>damage</code> 变量的右值是一个复杂的表达式，整个过程既有 <code>attack</code> 和 <code>defence</code> 的运算还有强制类型转换。</em></strong></p>
+</li>
+<li><p>第 5 行，输出 <code>damage</code> 的值。</p>
+</li>
+</ul>
+<p>以上代码输出结果为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">3.4</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="短变量声明并初始化"><a href="#短变量声明并初始化" class="headerlink" title="短变量声明并初始化"></a>短变量声明并初始化</h3><p><code>var</code> 的变量声明还有一种更为精简的写法，例如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">hp := 100</span><br></pre></td></tr></tbody></table></figure>
+<p>这是<code>Go</code>语言的推导声明写法，编译器会自动根据右值类型推断出左值的对应类型。</p>
+<p><strong><em>注意：由于使用了<code>:=</code>，而不是赋值的<code>=</code>，因此推导声明写法的左值变量必须是没有定义过的变量。若定义过，将会发生编译错误。</em></strong></p>
+<p>如果 hp 已经被声明过，但依然使用:=时编译器会报错，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// 声明 hp 变量</span><br><span class="line">var hp int</span><br><span class="line">// 再次声明并赋值</span><br><span class="line">hp := 10</span><br></pre></td></tr></tbody></table></figure>
+<p>编译报错:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">no new variables on left side of :=</span><br></pre></td></tr></tbody></table></figure>
+<p>翻译过来是在<code>:=</code>的左边没有新变量出现，意思就是<code>:=</code>的左边变量已经被声明了。</p>
+<p>短变量声明的形式在开发中的例子较多，比如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">conn, err := net.Dial("tcp","127.0.0.1:8080")</span><br></pre></td></tr></tbody></table></figure>
+<p><code>net.Dial</code> 提供按指定协议和地址发起网络连接，这个函数有两个返回值，一个是连接对象<code>（conn）</code>，一个是错误对象<code>（err）</code>。如果是标准格式将会变成：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var conn net.Conn</span><br><span class="line">var err error</span><br><span class="line">conn, err = net.Dial("tcp", "127.0.0.1:8080")</span><br></pre></td></tr></tbody></table></figure>
+<p>因此，短变量声明并初始化的格式在开发中使用比较普遍。</p>
+<p><strong><em>注意：在多个短变量声明和赋值中，至少有一个新声明的变量出现在左值中，即便其他变量名可能是重复声明的，编译器也不会报错，代码如下：</em></strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">conn, err := net.Dial("tcp", "127.0.0.1:8080")</span><br><span class="line">conn2, err := net.Dial("tcp", "127.0.0.1:8080")</span><br></pre></td></tr></tbody></table></figure>
+<p>上面的代码片段，编译器不会报 err 重复定义</p>
+<h2 id="多重赋值"><a href="#多重赋值" class="headerlink" title="多重赋值"></a>多重赋值</h2><p>编程最简单的算法之一，莫过于变量交换。交换变量的常见算法需要一个中间变量进行变量的临时保存。用传统方法编写变量交换代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var a int = 100</span><br><span class="line">var b int = 200</span><br><span class="line">var t int</span><br><span class="line">t = a</span><br><span class="line">a = b</span><br><span class="line">b = t</span><br><span class="line">fmt.Println(a, b)</span><br></pre></td></tr></tbody></table></figure>
+<p>在计算机刚发明时，内存非常“精贵”。这种变量交换往往是非常奢侈的。于是计算机“大牛”发明了一些算法来避免使用中间变量：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var a int = 100</span><br><span class="line">var b int = 200</span><br><span class="line">a = a ^ b</span><br><span class="line">b = b ^ a</span><br><span class="line">a = a ^ b</span><br><span class="line">fmt.Println(a, b)</span><br></pre></td></tr></tbody></table></figure>
+<p>这样的算法很多，但是都有一定的数值范围和类型要求。</p>
+<p>到了<code>Go</code>语言时，内存不再是紧缺资源，而且写法可以更简单。使用 <code>Go</code> 的“多重赋值”特性，可以轻松完成变量交换的任务：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var a int = 100</span><br><span class="line">var b int = 200</span><br><span class="line">b, a = a, b</span><br><span class="line">fmt.Println(a, b)</span><br></pre></td></tr></tbody></table></figure>
+<p>多重赋值时，变量的左值和右值按从左到右的顺序赋值。</p>
+<p>多重赋值在<code>Go</code>语言的错误处理和函数返回值中会大量地使用。例如使用<code>Go</code>语言进行排序时就需要使用交换，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type IntSlice []int</span><br><span class="line">func (p IntSlice) Len() int           { return len(p) }</span><br><span class="line">func (p IntSlice) Less(i, j int) bool { return p[i] &lt; p[j] }</span><br><span class="line">func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>1</code> 行，将 <code>IntSlice</code> 声明为 <code>[]int</code> 类型。</li>
+<li>第 <code>3</code> 行，为 <code>IntSlice</code> 类型编写一个 <code>Len</code> 方法，提供切片的长度。</li>
+<li>第 <code>4</code> 行，根据提供的 <code>i、j</code> 元素索引，获取元素后进行比较，返回比较结果。</li>
+<li>第 <code>5</code> 行，根据提供的 <code>i、j</code> 元素索引，交换两个元素的值。</li>
+</ul>
+<h2 id="匿名变量"><a href="#匿名变量" class="headerlink" title="匿名变量"></a>匿名变量</h2><p>在编码过程中，可能会遇到没有名称的变量、类型或方法。虽然这不是必须的，但有时候这样做可以极大地增强代码的灵活性，这些变量被统称为匿名变量。</p>
+<p>匿名变量的特点是一个下画线<code>_</code>，<code>_</code>本身就是一个特殊的标识符，被称为空白标识符。它可以像其他标识符那样用于变量的声明或赋值（任何类型都可以赋值给它），但任何赋给这个标识符的值都将被抛弃，因此这些值不能在后续的代码中使用，也不可以使用这个标识符作为变量对其它变量进行赋值或运算。使用匿名变量时，只需要在变量声明的地方使用下画线替换即可。例如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func GetData() (int, int) {</span><br><span class="line">    return 100, 200</span><br><span class="line">}</span><br><span class="line">func main(){</span><br><span class="line">    a, _ := GetData()</span><br><span class="line">    _, b := GetData()</span><br><span class="line">    fmt.Println(a, b)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">100 200</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>1</code> 行<code>GetData()</code> 是一个函数，拥有两个整型返回值。每次调用将会返回 <code>100</code> 和 <code>200</code> 两个数值。</li>
+<li>第 <code>5</code> 行只需要获取第一个返回值，所以将第二个返回值的变量设为下画线（匿名变量）。</li>
+<li>第 <code>6</code> 行将第一个返回值的变量设为匿名变量。</li>
+</ul>
+<p>匿名变量不占用内存空间，不会分配内存。匿名变量与匿名变量之间也不会因为多次声明而无法使用。</p>
+<p>提示：在 Lua 等编程语言里，匿名变量也被叫做哑元变量。</p>
+<h2 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h2><p>一个变量（常量、类型或函数）在程序中都有一定的作用范围，称之为作用域。</p>
+<p>了解变量的作用域对我们学习<code>Go</code>语言来说是比较重要的，因为<code>Go</code>语言会在编译时检查每个变量是否使用过，一旦出现未使用的变量，就会报编译错误。如果不能理解变量的作用域，就有可能会带来一些不明所以的编译错误。</p>
+<p>根据变量定义位置的不同，可以分为以下三个类型：</p>
+<ul>
+<li>函数内定义的变量称为局部变量</li>
+<li>函数外定义的变量称为全局变量</li>
+<li>函数定义中的变量称为形式参数</li>
+</ul>
+<p>下面就来分别介绍一下。</p>
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><p>在函数体内声明的变量称之为局部变量，它们的作用域只在函数体内，函数的参数和返回值变量都属于局部变量。</p>
+<p>局部变量不是一直存在的，它只在定义它的函数被调用后存在，函数调用结束后这个局部变量就会被销毁。</p>
+<p>【示例】下面的 <code>main()</code> 函数中使用到了局部变量 <code>a、b、c</code>。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">)</span><br><span class="line">func main() {</span><br><span class="line">    //声明局部变量 a 和 b 并赋值</span><br><span class="line">    var a int = 3</span><br><span class="line">    var b int = 4</span><br><span class="line">    //声明局部变量 c 并计算 a 和 b 的和</span><br><span class="line">    c := a + b</span><br><span class="line">    fmt.Printf("a = %d, b = %d, c = %d\n", a, b, c)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">a = 3, b = 4, c = 7</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><p>在函数体外声明的变量称之为全局变量，全局变量只需要在一个源文件中定义，就可以在所有源文件中使用，当然，不包含这个全局变量的源文件需要使用<code>import</code>关键字引入全局变量所在的源文件之后才能使用这个全局变量。</p>
+<p>全局变量声明必须以 <code>var</code> 关键字开头，<strong><em>如果想要在外部包中使用全局变量的首字母必须大写</em></strong>。</p>
+<p>【示例】下面代码中，第 <code>4</code> 行定义了全局变量 <code>c</code>。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import "fmt"</span><br><span class="line">//声明全局变量</span><br><span class="line">var c int</span><br><span class="line">func main() {</span><br><span class="line">    //声明局部变量</span><br><span class="line">    var a, b int</span><br><span class="line">    //初始化参数</span><br><span class="line">    a = 3</span><br><span class="line">    b = 4</span><br><span class="line">    c = a + b</span><br><span class="line">    fmt.Printf("a = %d, b = %d, c = %d\n", a, b, c)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">a = 3, b = 4, c = 7</span><br></pre></td></tr></tbody></table></figure>
+<p><code>Go</code>语言程序中全局变量与局部变量名称可以相同，<strong><em>但是函数体内的局部变量会被优先考虑</em></strong>。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import "fmt"</span><br><span class="line">//声明全局变量</span><br><span class="line">var a float32 = 3.14</span><br><span class="line">func main() {</span><br><span class="line">    //声明局部变量</span><br><span class="line">    var a int = 3</span><br><span class="line">    fmt.Printf("a = %d\n", a)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">a = 3</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="形式参数"><a href="#形式参数" class="headerlink" title="形式参数"></a>形式参数</h3><p>在定义函数时函数名后面括号中的变量叫做形式参数（简称形参）。形式参数只在函数调用时才会生效，函数调用结束后就会被销毁，在函数未被调用时，函数的形参并不占用实际的存储单元，也没有实际值。</p>
+<p>形式参数会作为函数的局部变量来使用。</p>
+<p>【示例】下面代码中第 <code>16</code> 行定义了形式参数 <code>a</code> 和 <code>b</code>。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">)</span><br><span class="line">//全局变量 a</span><br><span class="line">var a int = 13</span><br><span class="line">func main() {</span><br><span class="line">    //局部变量 a 和 b</span><br><span class="line">    var a int = 3</span><br><span class="line">    var b int = 4</span><br><span class="line">    fmt.Printf("main() 函数中 a = %d\n", a)</span><br><span class="line">    fmt.Printf("main() 函数中 b = %d\n", b)</span><br><span class="line">    c := sum(a, b)</span><br><span class="line">    fmt.Printf("main() 函数中 c = %d\n", c)</span><br><span class="line">}</span><br><span class="line">func sum(a, b int) int {</span><br><span class="line">    fmt.Printf("sum() 函数中 a = %d\n", a)</span><br><span class="line">    fmt.Printf("sum() 函数中 b = %d\n", b)</span><br><span class="line">    num := a + b</span><br><span class="line">    return num</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">main() 函数中 a = 3</span><br><span class="line">main() 函数中 b = 4</span><br><span class="line">sum() 函数中 a = 3</span><br><span class="line">sum() 函数中 b = 4</span><br><span class="line">main() 函数中 c = 7</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p>Go语言的数值类型分为以下几种：整数、浮点数、复数，其中每一种都包含了不同大小的数值类型，例如有符号整数包含 <code>int8</code>、<code>int16</code>、<code>int32</code>、<code>int64</code> 等，每种数值类型都决定了对应的大小范围和是否支持正负符号。</p>
+<p><code>Go</code>语言同时提供了有符号和无符号的整数类型，其中包括 <code>int8</code>、<code>int16</code>、<code>int32</code> 和 <code>int64</code> 四种大小截然不同的有符号整数类型，分别对应 <code>8</code>、<code>16</code>、<code>32</code>、<code>64 bit</code>（二进制位）大小的有符号整数，与此对应的是 <code>uint8</code>、<code>uint16</code>、<code>uint32</code> 和 <code>uint64</code> 四种无符号整数类型。</p>
+<p>此外还有两种整数类型 <code>int</code> 和 <code>uint</code>，它们分别对应特定 <code>CPU</code> 平台的字长（机器字大小），其中 <code>int</code> 表示有符号整数，应用最为广泛，<code>uint</code> 表示无符号整数。实际开发中由于编译器和计算机硬件的不同，<code>int</code> 和 <code>uint</code> 所能表示的整数大小会在 <code>32bit</code> 或 <code>64bit</code> 之间变化。</p>
+<p>大多数情况下，我们只需要 <code>int</code> 一种整型即可，它可以用于循环计数器（<code>for</code> 循环中控制循环次数的变量）、数组和切片的索引，以及任何通用目的的整型运算符，通常 <code>int</code> 类型的处理速度也是最快的。</p>
+<p>用来表示 <code>Unicode</code> 字符的 <code>rune</code> 类型和 <code>int32</code> 类型是等价的，通常用于表示一个 <code>Unicode</code> 码点。这两个名称可以互换使用。同样，<code>byte</code> 和 <code>uint8</code> 也是等价类型，<code>byte</code> 类型一般用于强调数值是一个原始的数据而不是一个小的整数。</p>
+<p>最后，还有一种无符号的整数类型 <code>uintptr</code>，它没有指定具体的 <code>bit</code> 大小但是足以容纳指针。<code>uintptr</code> 类型只有在底层编程时才需要，特别是<code>Go</code>语言和<code>C</code>语言函数库或操作系统接口相交互的地方。</p>
+<p>尽管在某些特定的运行环境下 <code>int</code>、<code>uint</code> 和 <code>uintptr</code> 的大小可能相等，但是它们依然是不同的类型，比如 <code>int</code> 和 <code>int32</code>，虽然 <code>int</code> 类型的大小也可能是 <code>32 bit</code>，但是在需要把 <code>int</code> 类型当做 <code>int32</code> 类型使用的时候必须显示的对类型进行转换，反之亦然。</p>
+<p><code>Go</code>语言中有符号整数采用 <code>2</code> 的补码形式表示，也就是最高 <code>bit</code> 位用来表示符号位，一个 <code>n-bit</code> 的有符号数的取值范围是从 <code>-2(n-1)</code> 到 <code>2(n-1)-1</code>。无符号整数的所有 <code>bit</code> 位都用于表示非负数，取值范围是 <code>0</code> 到 <code>2n-1</code>。例如，<code>int8</code> 类型整数的取值范围是从 <code>-128</code> 到 <code>127</code>，而 <code>uint8</code> 类型整数的取值范围是从 <code>0</code> 到 <code>255</code>。</p>
+<h3 id="哪些情况下使用-int-和-uint"><a href="#哪些情况下使用-int-和-uint" class="headerlink" title="哪些情况下使用 int 和 uint"></a>哪些情况下使用 <code>int</code> 和 <code>uint</code></h3><p>程序逻辑对整型范围没有特殊需求。例如，对象的长度使用内建 len() 函数返回，这个长度可以根据不同平台的字节长度进行变化。实际使用中，切片或 <code>map</code> 的元素数量等都可以用 int 来表示。</p>
+<p>反之，在二进制传输、读写文件的结构描述时，为了保持文件的结构不会受到不同编译目标平台字节长度的影响，不要使用 <code>int</code> 和 <code>uint</code>。</p>
+<h2 id="小数类型"><a href="#小数类型" class="headerlink" title="小数类型"></a>小数类型</h2><p><code>Go</code>语言提供了两种精度的浮点数 <code>float32</code> 和 <code>float64</code>，它们的算术规范由 <code>IEEE754</code> 浮点数国际标准定义，该浮点数规范被所有现代的 <code>CPU</code> 支持。</p>
+<p>这些浮点数类型的取值范围可以从很微小到很巨大。浮点数取值范围的极限值可以在 <code>math</code> 包中找到：</p>
+<ul>
+<li>常量 <code>math.MaxFloat32</code> 表示 <code>float32</code> 能取到的最大数值，大约是 <code>3.4e38</code>；</li>
+<li>常量 <code>math.MaxFloat64</code> 表示 <code>float64</code> 能取到的最大数值，大约是 <code>1.8e308</code>；</li>
+<li><code>float32</code> 和 <code>float64</code> 能表示的最小值分别为 <code>1.4e-45</code> 和 <code>4.9e-324</code>。</li>
+</ul>
+<p>一个 <code>float32</code> 类型的浮点数可以提供大约 <code>6</code> 个十进制数的精度，而 <code>float64</code> 则可以提供约 <code>15</code> 个十进制数的精度，通常应该优先使用 <code>float64</code> 类型，因为 <code>float32</code> 类型的累计计算误差很容易扩散，并且 <code>float32</code> 能精确表示的正整数并不是很大。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var f float32 = 16777216 // 1 &lt;&lt; 24</span><br><span class="line">fmt.Println(f == f+1)    // "true"!</span><br></pre></td></tr></tbody></table></figure>
+<p>浮点数在声明的时候可以只写整数部分或者小数部分，像下面这样：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const e = .71828 // 0.71828</span><br><span class="line">const f = 1.     // 1</span><br></pre></td></tr></tbody></table></figure>
+<p>很小或很大的数最好用科学计数法书写，通过 e 或 E 来指定指数部分：</p>
+<figure class="highlight plain"><figcaption><span>e 或 E 来指定指数部分</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line">const Avogadro = 6.02214129e23  // 阿伏伽德罗常数</span><br><span class="line">const Planck   = 6.62606957e-34 // 普朗克常数</span><br></pre></td></tr></tbody></table></figure>
+<p>用 Printf 函数打印浮点数时可以使用<code>%f</code>来控制保留几位小数:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">    "math"</span><br><span class="line">)</span><br><span class="line">func main() {</span><br><span class="line">    fmt.Printf("%f\n", math.Pi)</span><br><span class="line">    fmt.Printf("%.2f\n", math.Pi)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">3.141593</span><br><span class="line">3.14</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="复数"><a href="#复数" class="headerlink" title="复数"></a>复数</h2><p>在计算机中，复数是由两个浮点数表示的，其中一个表示实部<code>（real）</code>，一个表示虚部<code>（imag）</code>。</p>
+<p><code>Go</code>语言中复数的类型有两种，分别是  <code>complex128（64 位实数和虚数）</code> 和 <code>complex64（32 位实数和虚数）</code>，其中 <code>complex128</code> 为复数的默认类型。</p>
+<p>复数的值由三部分组成 <code>RE</code> + <code>IMi</code>，其中 <code>RE</code> 是实数部分，<code>IM</code> 是虚数部分，<code>RE</code> 和 <code>IM</code> 均为 <code>float</code> 类型，而最后的 <code>i</code> 是虚数单位。</p>
+<p>声明复数的语法格式如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var name complex128 = complex(x, y)</span><br></pre></td></tr></tbody></table></figure>
+<p>其中 <code>name</code> 为复数的变量名，<code>complex128</code> 为复数的类型，<code>=</code> 后面的 <code>complex</code> 为 <code>Go</code> 语言的内置函数用于为复数赋值，<code>x</code> 、<code>y</code> 分别表示构成该复数的两个 <code>float64</code> 类型的数值，<code>x</code> 为实部，<code>y</code> 为虚部。</p>
+<p>上面的声明语句也可以简写为下面的形式：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">name := complex(x, y)</span><br></pre></td></tr></tbody></table></figure>
+<p>对于一个复数 <code>z := complex(x, y)</code>，可以通过 <code>Go</code> 语言的内置函数 <code>real(z)</code> 来获得该复数的实部，也就是 <code>x</code> ；通过 <code>imag(z)</code> 获得该复数的虚部，也就是 <code>y</code> 。</p>
+<p>【示例】使用内置的 <code>complex</code> 函数构建复数，并使用 <code>real</code> 和 <code>imag</code> 函数返回复数的实部和虚部：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var x complex128 = complex(1, 2) // 1+2i</span><br><span class="line">var y complex128 = complex(3, 4) // 3+4i</span><br><span class="line">fmt.Println(x*y)                 // "(-5+10i)"</span><br><span class="line">fmt.Println(real(x*y))           // "-5"</span><br><span class="line">fmt.Println(imag(x*y))           // "10"</span><br></pre></td></tr></tbody></table></figure>
+<p>如果大家对复数的运算法则不是很了解，可以查阅<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%A4%8D%E6%95%B0%E8%BF%90%E7%AE%97%E6%B3%95%E5%88%99/2568041?fr=aladdin">《复数运算法则》</a>，其中详细的讲解了复数的加减乘除操作。</p>
+<p>复数也可以用 <code>==</code> 和 <code>!=</code> 进行相等比较，只有两个复数的实部和虚部都相等的时候它们才是相等的。</p>
+<p><code>Go</code> 语言内置的 <code>math/cmplx</code> 包中提供了很多操作复数的公共方法，实际操作中建议大家使用复数默认的 <code>complex128</code> 类型，因为这些内置的包中都使用 <code>complex128</code> 类型作为参数。</p>
+<h2 id="输出正弦函数-（Sin）-图像"><a href="#输出正弦函数-（Sin）-图像" class="headerlink" title="输出正弦函数 （Sin） 图像"></a>输出正弦函数 <code>（Sin）</code> 图像</h2><p>在 <code>Go</code> 语言中，正弦函数由 <code>math</code> 包提供，函数入口为 <code>math.Sin</code> ，正弦函数的参数为 <code>float64</code> ，返回值也是 <code>float64</code> 。在使用正弦函数时，根据实际精度可以进行转换。</p>
+<p><code>Go</code> 语言的标准库支持对图片像素进行访问，并且支持输出各种图片格式，如 <code>JPEG</code>、<code>PNG</code>、<code>GIF</code> 等。</p>
+<p>首先给出本节完整的代码：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    "image"</span><br><span class="line">    "image/color"</span><br><span class="line">    "image/png"</span><br><span class="line">    "log"</span><br><span class="line">    "math"</span><br><span class="line">    "os"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line">    // 图片大小</span><br><span class="line">    const size = 300</span><br><span class="line"></span><br><span class="line">    // 根据给定大小创建灰度图</span><br><span class="line">    pic := image.NewGray(image.Rect(0, 0, size, size))</span><br><span class="line"></span><br><span class="line">    // 遍历每个像素</span><br><span class="line">    for x := 0; x &lt; size; x++ {</span><br><span class="line">        for y := 0; y &lt; size; y++ {</span><br><span class="line">            // 填充为白色</span><br><span class="line">            pic.SetGray(x, y, color.Gray{255})</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    // 从0到最大像素生成x坐标</span><br><span class="line">    for x := 0; x &lt; size; x++ {</span><br><span class="line">        // 让sin的值的范围在0~2Pi之间</span><br><span class="line">        s := float64(x) * 2 * math.Pi / size</span><br><span class="line">        // sin的幅度为一半的像素。向下偏移一半像素并翻转</span><br><span class="line">        y := size/2 - math.Sin(s)*size/2</span><br><span class="line">        // 用黑色绘制sin轨迹</span><br><span class="line">        pic.SetGray(x, int(y), color.Gray{0})</span><br><span class="line">    }</span><br><span class="line">    // 创建文件</span><br><span class="line">    file, err := os.Create("sin.png")</span><br><span class="line">    if err != nil {</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    }</span><br><span class="line">    // 使用png格式将数据写入文件</span><br><span class="line">    png.Encode(file, pic) //将image信息写入文件中</span><br><span class="line">    // 关闭文件</span><br><span class="line">    file.Close()</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="设置图片背景色"><a href="#设置图片背景色" class="headerlink" title="设置图片背景色"></a>设置图片背景色</h3><p>以下是设置图片背景的代码：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// 图片大小</span><br><span class="line">const size = 300</span><br><span class="line"></span><br><span class="line">// 根据给定大小创建灰度图</span><br><span class="line">pic := image.NewGray(image.Rect(0, 0, size, size))</span><br><span class="line"></span><br><span class="line">// 遍历每个像素</span><br><span class="line">for x := 0; x &lt; size; x++ {</span><br><span class="line">    for y := 0; y &lt; size; y++ {</span><br><span class="line">        // 填充为白色</span><br><span class="line">        pic.SetGray(x, y, color.Gray{255})</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>2</code> 行，声明一个 <code>size</code> 常量，值为 <code>300</code>。</li>
+<li>第 <code>5</code> 行，使用 <code>image</code> 包的 <code>NewGray()</code> 函数创建一个图片对象，使用区域由 <code>image.Rect</code> 结构提供，<code>image.Rect</code> 描述一个方形的两个定位点 <code>(x1,y1)</code> 和 <code>(x2,y2)</code> ，<code>image.Rect(0,0,size,size)</code> 表示使用完整灰度图像素，尺寸为宽 <code>300</code>，长 <code>300</code>。</li>
+<li>第 <code>8</code> 行和第 <code>9</code> 行，遍历灰度图的所有像素。</li>
+<li>第 <code>11</code> 行，将每一个像素的灰度设为 <code>255</code> ，也就是白色。</li>
+</ul>
+<p>灰度图是一种常见的图片格式，一般情况下颜色由 <code>8</code> 位组成，灰度范围为 <code>0～255</code> ，<code>0</code> 表示黑色，<code>255</code> 表示白色。</p>
+<p>初始化好的灰度图默认的灰度值都是 <code>0</code> ，对的是黑色，由于显示效果的效果不是很好，所以这里将所有像素设置为 <code>255</code>，也就是白色。</p>
+<h3 id="绘制正弦函数轨迹"><a href="#绘制正弦函数轨迹" class="headerlink" title="绘制正弦函数轨迹"></a>绘制正弦函数轨迹</h3><p>正弦函数是一个周期函数，定义域是实数集，取值范围是 <code>[-1, 1]</code>。用编程的通俗易懂的话来说就是：<code>math.Sin</code> 函数的参数支持任意浮点数范围，函数返回值的范围总是在 <code>-1～1</code> 之间（包含 <code>1</code>、<code>-1</code>）。</p>
+<p>要将正弦函数放在图片上需要考虑以下一些因素：</p>
+<ul>
+<li><code>math.Sin</code> 的返回值在 <code>-1～1</code> 之间，需要考虑将正弦的输出幅度变大，可以将 <code>math.Sin</code> 的返回值乘以一个常量进行放大。</li>
+<li>图片的坐标系原点在左上角，而 <code>math.Sin</code> 基于笛卡尔坐标系原点在左下角，需要对图像进行上下翻转和平移。</li>
+</ul>
+<p>将这些处理逻辑汇总为代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// 从0到最大像素生成x坐标</span><br><span class="line">for x := 0; x &lt; size; x++ {</span><br><span class="line"></span><br><span class="line">    // 让sin的值的范围在0~2Pi之间</span><br><span class="line">    s := float64(x) * 2 * math.Pi / size</span><br><span class="line"></span><br><span class="line">    // sin的幅度为一半的像素。向下偏移一半像素并翻转</span><br><span class="line">    y := size/2 - math.Sin(s)*size/2</span><br><span class="line"></span><br><span class="line">    // 用黑色绘制sin轨迹</span><br><span class="line">    pic.SetGray(x, int(y), color.Gray{0})</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>2</code> 行，生成 <code>0</code> 到 <code>size（300）</code> 的 x 坐标轴。</li>
+<li><p>第 <code>5</code> 行，计算 <code>math.Sin</code> 的定义域，这段代码等效为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">rate := x / size</span><br><span class="line">s := rate * 2 * math.Pi</span><br></pre></td></tr></tbody></table></figure>
+<p><code>x</code> 的范围是 <code>0</code> 到 <code>size</code> ，因此除以 <code>size</code> 后，<code>rate</code> 的范围是 <code>0～1</code> 之间，再乘以 <code>2π</code> 后，<code>s</code> 的范围刚好是 <code>0～2π</code> 之间。</p>
+<p><code>float64(x)</code> 表示将整型的 <code>x</code> 变量转换为 <code>float64</code> 类型，之后运算的所有表达式将以 <code>float64</code> 类型进行。</p>
+</li>
+<li><p>第 <code>8</code> 行中，<code>math.Sin(s)*size/2</code> 表示将正弦函数的返回值幅度从 <code>1</code> 扩大到二分之一的 <code>size</code> 。负号表示将正弦函数图形以图形中心上下翻转。叠加 <code>size/2</code> 表示将图形在 <code>y</code> 轴上向下偏移二分之一的 <code>size</code>（图片坐标系的 <code>y</code> 向下）。</p>
+</li>
+<li>第 <code>11</code> 行将计算好的 <code>x</code> 轴和 <code>y</code> 轴数据，以灰度为 <code>0</code>（黑色）使用 <code>SetGray()</code> 方法填充到像素中。</li>
+</ul>
+<p>写入图片的正弦函数图像如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wssjdi/statics/imgs/sinImage.png" alt="正弦图片"></p>
+<h3 id="写入图片文件"><a href="#写入图片文件" class="headerlink" title="写入图片文件"></a>写入图片文件</h3><p>内存中的正弦函数图形是不可见的，我们选用 <code>PNG</code> 格式将图形输出为文件，<code>Go</code> 语言提供了文件创建函数和 <code>PNG</code> 格式写入函数，代码如下</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// 创建文件</span><br><span class="line">file, err := os.Create("sin.png")</span><br><span class="line"></span><br><span class="line">if err != nil {</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">}</span><br><span class="line">// 使用PNG格式将数据写入文件</span><br><span class="line">png.Encode(file, pic)  //将image信息写入文件中</span><br><span class="line"></span><br><span class="line">// 关闭文件</span><br><span class="line">file.Close()</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>2</code> 行，创建 <code>sin.png</code> 的文件。</li>
+<li>第 <code>4</code> 行，如果创建文件失败，返回错误，打印错误并终止。</li>
+<li>第 <code>8</code> 行，使用 <code>PNG</code> 包，将图形对象写入文件中。</li>
+<li>第 <code>11</code> 行，关闭文件。</li>
+</ul>
+<h2 id="bool类型"><a href="#bool类型" class="headerlink" title="bool类型"></a>bool类型</h2><p>一个布尔类型的值只有两种：<code>true</code> 或 <code>false</code>。<code>if</code> 和 <code>for</code> 语句的条件部分都是布尔类型的值，并且 <code>==</code> 和 <code>&lt;</code> 等比较操作也会产生布尔型的值。</p>
+<p>一元操作符 <code>!</code> 对应逻辑非操作，因此 <code>!true</code> 的值为 <code>false</code>，更复杂一些的写法是 <code>(!true==false) == true</code>，实际开发中我们应尽量采用比较简洁的布尔表达式，就像用 <code>x</code> 来表示 <code>x==true</code> 。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var aVar = 10</span><br><span class="line">aVar == 5  // false</span><br><span class="line">aVar == 10 // true</span><br><span class="line">aVar != 5  // true</span><br><span class="line">aVar != 10 // false</span><br></pre></td></tr></tbody></table></figure>
+<p><code>Go</code>语言对于值之间的比较有非常严格的限制，只有两个相同类型的值才可以进行比较，如果值的类型是接口<code>（interface）</code>，那么它们也必须都实现了相同的接口。如果其中一个值是常量，那么另外一个值可以不是常量，但是类型必须和该常量类型相同。如果以上条件都不满足，则必须将其中一个值的类型转换为和另外一个值的类型相同之后才可以进行比较。</p>
+<p>布尔值可以和 <code>&amp;&amp;（AND）</code> 和 <code>||（OR）</code> 操作符结合，并且有短路行为，如果运算符左边的值已经可以确定整个布尔表达式的值，那么运算符右边的值将不再被求值，因此下面的表达式总是安全的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">s != "" &amp;&amp; s[0] == 'x'</span><br></pre></td></tr></tbody></table></figure>
+<p>其中 <code>s[0]</code> 操作如果应用于空字符串将会导致 <code>panic</code> 异常。</p>
+<p>因为 <code>&amp;&amp;</code> 的优先级比 <code>||</code> 高（ <code>&amp;&amp;</code> 对应逻辑乘法，<code>||</code> 对应逻辑加法，乘法比加法优先级要高），所以下面的布尔表达式可以不加小括号：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">if 'a' &lt;= c &amp;&amp; c &lt;= 'z' ||</span><br><span class="line">    'A' &lt;= c &amp;&amp; c &lt;= 'Z' ||</span><br><span class="line">    '0' &lt;= c &amp;&amp; c &lt;= '9' {</span><br><span class="line">    // ...ASCII字母或数字...</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>布尔值并不会隐式转换为数字值 <code>0</code> 或 <code>1</code>，反之亦然，必须使用 <code>if</code> 语句显式的进行转换：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">i := 0</span><br><span class="line">if b {</span><br><span class="line">    i = 1</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>如果需要经常做类似的转换，可以将转换的代码封装成一个函数，如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// 如果b为真，btoi返回1；如果为假，btoi返回0</span><br><span class="line">func btoi(b bool) int {</span><br><span class="line">    if b {</span><br><span class="line">        return 1</span><br><span class="line">    }</span><br><span class="line">    return 0</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>数字到布尔型的逆转换非常简单，不过为了保持对称，我们也可以封装一个函数：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// itob报告是否为非零。</span><br><span class="line">func itob(i int) bool { return i != 0 }</span><br></pre></td></tr></tbody></table></figure>
+<p><code>Go</code> 语言中不允许将整型强制转换为布尔型，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var n bool</span><br><span class="line">fmt.Println(int(n) * 2)</span><br></pre></td></tr></tbody></table></figure>
+<p>编译错误，输出如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">cannot convert n (type bool) to type int</span><br></pre></td></tr></tbody></table></figure>
+<p>布尔型无法参与数值运算，也无法与其他类型进行转换。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>一个字符串是一个不可改变的字节序列，字符串可以包含任意的数据，但是通常是用来包含可读的文本，字符串是 <code>UTF-8</code> 字符的一个序列（当字符为 <code>ASCII</code> 码表上的字符时则占用 <code>1</code> 个字节，其它字符根据需要占用 <code>2-4</code> 个字节）。</p>
+<p><code>UTF-8</code> 是一种被广泛使用的编码格式，是文本文件的标准编码，其中包括 <code>XML</code> 和 <code>JSON</code> 在内也都使用该编码。由于该编码对占用字节长度的不定性，在 <code>Go</code> 语言中字符串也可能根据需要占用 <code>1</code> 至 <code>4</code> 个字节，这与其它编程语言如 <code>C++</code> 、<code>Java</code> 或者 <code>Python</code> 不同（<code>Java</code> 始终使用 <code>2</code> 个字节）。<code>Go</code> 语言这样做不仅减少了内存和硬盘空间占用，同时也不用像其它语言那样需要对使用 <code>UTF-8</code> 字符集的文本进行编码和解码。</p>
+<p>字符串是一种值类型，且值不可变，即创建某个文本后将无法再次修改这个文本的内容，更深入地讲，字符串是字节的定长数组。</p>
+<h3 id="定义字符串"><a href="#定义字符串" class="headerlink" title="定义字符串"></a>定义字符串</h3><p>可以使用双引号 <code>""</code> 来定义字符串，字符串中可以使用转义字符来实现换行、缩进等效果，常用的转义字符包括：</p>
+<ul>
+<li>\n：换行符</li>
+<li>\r：回车符</li>
+<li>\t：tab 键</li>
+<li>\u 或 \U：Unicode 字符</li>
+<li>\：反斜杠自身</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">)</span><br><span class="line">func main() {</span><br><span class="line">    var str = "Hello\nGo World~!"</span><br><span class="line">    fmt.Println(str)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">Hello</span><br><span class="line">Go World~!</span><br></pre></td></tr></tbody></table></figure>
+<p>一般的比较运算符 <code>（==、!=、&lt;、&lt;=、&gt;=、&gt;）</code> 是通过在内存中按字节比较来实现字符串比较的，因此比较的结果是字符串自然编码的顺序。字符串所占的字节长度可以通过函数 <code>len()</code> 来获取，例如 <code>len(str)</code>。</p>
+<p>字符串的内容（纯字节）可以通过标准索引法来获取，在方括号 <code>[ ]</code> 内写入索引，索引从 <code>0</code> 开始计数：</p>
+<ul>
+<li>字符串 <code>str</code> 的第 <code>1</code> 个字节：<code>str[0]</code></li>
+<li>第 <code>i</code> 个字节：<code>str[i - 1]</code></li>
+<li>最后 <code>1</code> 个字节：<code>str[len(str)-1]</code></li>
+</ul>
+<p>需要注意的是，这种转换方案只对纯 ASCII 码的字符串有效。</p>
+<p><strong><em>注意：获取字符串中某个字节的地址属于非法行为，例如 <code>&amp;str[i]</code>。</em></strong></p>
+<h3 id="字符串拼接符"><a href="#字符串拼接符" class="headerlink" title="字符串拼接符 +"></a>字符串拼接符 <code>+</code></h3><p>两个字符串 <code>s1</code> 和 <code>s2</code> 可以通过 <code>s := s1 + s2</code> 拼接在一起。将 <code>s2</code> 追加到 <code>s1</code> 尾部并生成一个新的字符串 <code>s</code>。</p>
+<p>可以通过下面的方式来对代码中多行的字符串进行拼接：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">str := "Beginning of the string " +</span><br><span class="line">"second part of the string"</span><br></pre></td></tr></tbody></table></figure>
+<p><strong><em>提示：因为编译器会在行尾自动补全分号，所以拼接字符串用的加号 <code>+</code> 必须放在第一行末尾。</em></strong></p>
+<p>也可以使用 <code>+=</code> 来对字符串进行拼接：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">s := "hel" + "lo,"</span><br><span class="line">s += "world!"</span><br><span class="line">fmt.Println(s) //输出 “hello, world!”</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="字符串实现基于-UTF-8-编码"><a href="#字符串实现基于-UTF-8-编码" class="headerlink" title="字符串实现基于 UTF-8 编码"></a>字符串实现基于 <code>UTF-8</code> 编码</h3><p><code>Go</code> 语言中字符串的内部实现使用 <code>UTF-8</code> 编码，通过 <code>rune</code> 类型，可以方便地对每个 <code>UTF-8</code> 字符进行访问。当然，<code>Go</code> 语言也支持按照传统的 <code>ASCII</code> 码方式逐字符进行访问。</p>
+<p>关于字符串的 <code>UTF-8</code> 字符访问的详细方法，后面的章节将会详细介绍。</p>
+<h3 id="定义多行字符串"><a href="#定义多行字符串" class="headerlink" title="定义多行字符串"></a>定义多行字符串</h3><p>在 <code>Go</code> 语言中，使用双引号书写字符串的方式是字符串常见表达方式之一，被称为字符串字面量<code>（string literal）</code> ，这种双引号字面量不能跨行，如果想要在源码中嵌入一个多行字符串时，就必须使用 ` 反引号，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const str = `第一行</span><br><span class="line">第二行</span><br><span class="line">第三行</span><br><span class="line">\r\n</span><br><span class="line">`</span><br><span class="line">fmt.Println(str)</span><br></pre></td></tr></tbody></table></figure>
+<p>代码运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">第一行</span><br><span class="line">第二行</span><br><span class="line">第三行</span><br><span class="line">\r\n</span><br></pre></td></tr></tbody></table></figure>
+<p>反引号`，是键盘上 1 键左边的键，两个反引号间的字符串将被原样赋值到 str 变量中。</p>
+<p>在这种方式下，反引号间换行将被作为字符串中的换行，但是所有的转义字符均无效，文本将会原样输出。</p>
+<p>多行字符串一般用于内嵌源码和内嵌数据等，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const codeTemplate = `// Generated by github.com/davyxu/cellnet/</span><br><span class="line">protoc-gen-msg</span><br><span class="line">// DO NOT EDIT!{{range .Protos}}</span><br><span class="line">// Source: {{.Name}}{{end}}</span><br><span class="line">package {{.PackageName}}</span><br><span class="line">{{if gt .TotalMessages 0}}</span><br><span class="line">import (</span><br><span class="line">    "github.com/davyxu/cellnet"</span><br><span class="line">    "reflect"</span><br><span class="line">    _ "github.com/davyxu/cellnet/codec/pb"</span><br><span class="line">)</span><br><span class="line">{{end}}</span><br><span class="line">func init() {</span><br><span class="line">    {{range .Protos}}</span><br><span class="line">    // {{.Name}}{{range .Messages}}</span><br><span class="line">    cellnet.RegisterMessageMeta("pb","{{.FullName}}", reflect.TypeOf((*{{.Name}})(nil)).Elem(), {{.MsgID}})    {{end}}</span><br><span class="line">    {{end}}</span><br><span class="line">}</span><br><span class="line">`</span><br></pre></td></tr></tbody></table></figure>
+<p>这段代码只定义了一个常量 codeTemplate，类型为字符串，使用`定义，字符串的内容为一段代码生成中使用到的 Go 源码格式。</p>
+<p>在 ` 间的所有代码均不会被编译器识别，而只是作为字符串的一部分。</p>
+<p>字符串类型在业务中的应用可以说是最广泛的，读者需要详细了解字符串的常见用法，请猛击下面的文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/36.html">Go语言计算字符串长度——len()和RuneCountInString()</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/37.html">Go语言遍历字符串——获取每一个字符串元素</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/38.html">Go语言字符串截取（获取字符串的某一段字符）</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/39.html">Go语言修改字符串</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/40.html">Go语言字符串拼接（连接）</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/41.html">Go语言fmt.Sprintf（格式化输出）</a></li>
+<li><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/42.html">Go语言Base64编码——电子邮件的基础编码格式</a></li>
+</ul>
+<h2 id="字符类型-byte和rune"><a href="#字符类型-byte和rune" class="headerlink" title="字符类型(byte和rune)"></a>字符类型(byte和rune)</h2><p>字符串中的每一个元素叫做“字符”，在遍历或者单个获取字符串元素时可以获得字符。</p>
+<p>Go语言的字符有以下两种：</p>
+<ul>
+<li>一种是 <code>uint8</code> 类型，或者叫 <code>byte</code> 型，代表了 <code>ASCII</code> 码的一个字符。</li>
+<li>另一种是 <code>rune</code> 类型，代表一个 <code>UTF-8</code> 字符，当需要处理中文、日文或者其他复合字符时，则需要用到 <code>rune</code> 类型。<code>rune</code> 类型等价于 int32 类型。</li>
+</ul>
+<p><code>byte</code> 类型是 <code>uint8</code> 的别名，对于只占用 <code>1</code> 个字节的传统 <code>ASCII</code> 编码的字符来说，完全没有问题，例如 <code>var ch byte = 'A'</code>，字符使用单引号括起来。</p>
+<p>在 <code>ASCII</code> 码表中，<code>A</code> 的值是 <code>65</code>，使用 <code>16</code> 进制表示则为 <code>41</code>，所以下面的写法是等效的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var ch byte = 65 或 var ch byte = '\x41'      //（\x 总是紧跟着长度为 2 的 16 进制数）</span><br></pre></td></tr></tbody></table></figure>
+<p>另外一种可能的写法是 <code>\</code> 后面紧跟着长度为 <code>3</code> 的八进制数，例如 \377。</p>
+<p><code>Go</code>语言同样支持 <code>Unicode（UTF-8）</code>，因此字符同样称为 <code>Unicode</code> 代码点或者 <code>runes</code> ，并在内存中使用 <code>int</code> 来表示。在文档中，一般使用格式 <code>U+hhhh</code> 来表示，其中 <code>h</code> 表示一个 <code>16</code> 进制数。</p>
+<p>在书写 <code>Unicode</code> 字符时，需要在 <code>16</code> 进制数之前加上前缀 <code>\u</code> 或者 <code>\U</code> 。因为 <code>Unicode</code> 至少占用 <code>2</code> 个字节，所以我们使用 <code>int16</code> 或者 <code>int</code> 类型来表示。如果需要使用到 <code>4</code> 字节，则使用 <code>\u</code> 前缀，如果需要使用到 <code>8</code> 个字节，则使用 <code>\U</code> 前缀。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var ch int = '\u0041'</span><br><span class="line">var ch2 int = '\u03B2'</span><br><span class="line">var ch3 int = '\U00101234'</span><br><span class="line">fmt.Printf("%d - %d - %d\n", ch, ch2, ch3) // integer</span><br><span class="line">fmt.Printf("%c - %c - %c\n", ch, ch2, ch3) // character</span><br><span class="line">fmt.Printf("%X - %X - %X\n", ch, ch2, ch3) // UTF-8 bytes</span><br><span class="line">fmt.Printf("%U - %U - %U", ch, ch2, ch3)   // UTF-8 code point</span><br></pre></td></tr></tbody></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">65 - 946 - 1053236</span><br><span class="line">A - β - r</span><br><span class="line">41 - 3B2 - 101234</span><br><span class="line">U+0041 - U+03B2 - U+101234</span><br></pre></td></tr></tbody></table></figure>
+<p>格式化说明符 <code>%c</code> 用于表示字符，当和字符配合使用时，<code>%v</code> 或 <code>%d</code> 会输出用于表示该字符的整数，<code>%U</code> 输出格式为 <code>U+hhhh</code> 的字符串。</p>
+<p><code>Unicode</code> 包中内置了一些用于测试字符的函数，这些函数的返回值都是一个布尔值，如下所示（其中 <code>ch</code> 代表字符）：</p>
+<ul>
+<li>判断是否为字母：<code>unicode.IsLetter(ch)</code></li>
+<li>判断是否为数字：<code>unicode.IsDigit(ch)</code></li>
+<li>判断是否为空白符号：<code>unicode.IsSpace(ch)</code></li>
+</ul>
+<h3 id="UTF-8-和-Unicode-有何区别"><a href="#UTF-8-和-Unicode-有何区别" class="headerlink" title="UTF-8 和 Unicode 有何区别"></a>UTF-8 和 Unicode 有何区别</h3><p><code>Unicode</code> 与 <code>ASCII</code> 类似，都是一种字符集。</p>
+<p>字符集为每个字符分配一个唯一的 <code>ID</code>，我们使用到的所有字符在 <code>Unicode</code> 字符集中都有一个唯一的 <code>ID</code>，例如上面例子中的 <code>a</code> 在 <code>Unicode</code> 与 <code>ASCII</code> 中的编码都是 <code>97</code>。汉字 <code>你</code> 在 <code>Unicode</code> 中的编码为 <code>20320</code>，在不同国家的字符集中，字符所对应的 <code>ID</code> 也会不同。而无论任何情况下，<code>Unicode</code> 中的字符的 <code>ID</code> 都是不会变化的。</p>
+<p><code>UTF-8</code> 是编码规则，将 <code>Unicode</code> 中字符的 <code>ID</code> 以某种方式进行编码，<code>UTF-8</code> 的是一种变长编码规则，从 <code>1</code> 到 <code>4</code> 个字节不等。编码规则如下：</p>
+<ul>
+<li><code>0xxxxxx</code> 表示文字符号 <code>0～127</code>，兼容 <code>ASCII</code> 字符集。</li>
+<li>从 <code>128</code> 到 <code>0x10ffff</code> 表示其他字符。</li>
+</ul>
+<p>根据这个规则，拉丁文语系的字符编码一般情况下每个字符占用一个字节，而中文每个字符占用 <code>3</code> 个字节。</p>
+<p>广义的 <code>Unicode</code> 指的是一个标准，它定义了字符集及编码规则，即 <code>Unicode</code> 字符集和 <code>UTF-8</code>、<code>UTF-16</code> 编码等。</p>
+<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p>在必要以及可行的情况下，一个类型的值可以被转换成另一种类型的值。由于 <code>Go</code> 语言不存在隐式类型转换，因此所有的类型转换都必须显式的声明：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">valueOfTypeB = typeB(valueOfTypeA)</span><br></pre></td></tr></tbody></table></figure>
+<p>类型 <code>B</code> 的值 = 类型 <code>B</code> (类型 <code>A</code> 的值)</p>
+<p>示例:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">a := 5.0</span><br><span class="line">b := int(a)</span><br></pre></td></tr></tbody></table></figure>
+<p>类型转换只能在定义正确的情况下转换成功，例如从一个取值范围较小的类型转换到一个取值范围较大的类型（将 <code>int16</code> 转换为 <code>int32</code>）。当从一个取值范围较大的类型转换到取值范围较小的类型时（将 <code>int32</code> 转换为 <code>int16</code> 或将 <code>float32</code> 转换为 <code>int</code> ），会发生精度丢失（截断）的情况。</p>
+<p>只有相同底层类型的变量之间可以进行相互转换（如将 <code>int16</code> 类型转换成 <code>int32</code> 类型），不同底层类型的变量相互转换时会引发编译错误（如将 <code>boo</code>l 类型转换为 <code>int</code> 类型）：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">        "fmt"</span><br><span class="line">        "math"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">        // 输出各数值范围</span><br><span class="line">        fmt.Println("int8 range:", math.MinInt8, math.MaxInt8)</span><br><span class="line">        fmt.Println("int16 range:", math.MinInt16, math.MaxInt16)</span><br><span class="line">        fmt.Println("int32 range:", math.MinInt32, math.MaxInt32)</span><br><span class="line">        fmt.Println("int64 range:", math.MinInt64, math.MaxInt64)</span><br><span class="line"></span><br><span class="line">        // 初始化一个32位整型值</span><br><span class="line">        var a int32 = 1047483647</span><br><span class="line">        // 输出变量的十六进制形式和十进制值</span><br><span class="line">        fmt.Printf("int32: 0x%x %d\n", a, a)</span><br><span class="line"></span><br><span class="line">        // 将a变量数值转换为十六进制, 发生数值截断</span><br><span class="line">        b := int16(a)</span><br><span class="line">        // 输出变量的十六进制形式和十进制值</span><br><span class="line">        fmt.Printf("int16: 0x%x %d\n", b, b)</span><br><span class="line"></span><br><span class="line">        // 将常量保存为float32类型</span><br><span class="line">        var c float32 = math.Pi</span><br><span class="line">        // 转换为int类型, 浮点发生精度丢失</span><br><span class="line">        fmt.Println(int(c))</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>11～14 行</code>，输出几个常见整型类型的数值范围。</li>
+<li>第 <code>17</code> 行，声明 <code>int32</code> 类型的变量 <code>a</code> 并初始化。</li>
+<li>第 <code>19</code> 行，使用 <code>fmt.Printf</code> 的 <code>%x</code> 动词将数值以十六进制格式输出，这一行输出 <code>a</code> 在转换前的 <code>32</code> 位的值。</li>
+<li>第 <code>22</code> 行，将 <code>a</code> 的值转换为 <code>int16</code> 类型，也就是从 <code>32</code> 位有符号整型转换为 <code>16</code> 位有符号整型，由于 <code>int16</code> 类型的取值范围比 <code>int32</code> 类型的取值范围小，因此数值会进行截断（精度丢失）。</li>
+<li>第 <code>24</code> 行，输出转换后的 <code>a</code> 变量值，也就是 <code>b</code> 的值，同样以十六进制和十进制两种方式进行打印。</li>
+<li>第 <code>27</code> 行，<code>math.Pi</code> 是 <code>math</code> 包的常量，默认没有类型，会在引用到的地方自动根据实际类型进行推导，这里 <code>math.Pi</code> 被赋值到变量 <code>c</code> 中，因此类型为 <code>float32</code>。</li>
+<li>第 <code>29</code> 行，将 <code>float32</code> 转换为 <code>int</code> 类型并输出。</li>
+</ul>
+<p>代码输出如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">int8 range: -128 127</span><br><span class="line">int16 range: -32768 32767</span><br><span class="line">int32 range: -2147483648 2147483647</span><br><span class="line">int64 range: -9223372036854775808 9223372036854775807</span><br><span class="line">int32: 0x3e6f54ff 1047483647</span><br><span class="line">int16: 0x54ff 21759</span><br><span class="line">3</span><br></pre></td></tr></tbody></table></figure>
+<p>根据输出结果，<code>16</code> 位有符号整型的范围是 <code>-32768～32767</code>，而变量 <code>a</code> 的值 <code>1047483647</code> 不在这个范围内。<code>1047483647</code> 对应的十六进制为 <code>0x3e6f54ff</code>，转为 <code>int16</code> 类型后，长度缩短一半，也就是在十六进制上砍掉一半，变成 <code>0x54ff</code>，对应的十进制值为 <code>21759</code>。</p>
+<p>浮点数在转换为整型时，会将小数部分去掉，只保留整数部分。</p>
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>与 <code>Java</code> 和 <code>.NET</code> 等编程语言不同，<code>Go</code> 语言为程序员提供了控制数据结构指针的能力，<strong>但是，并不能进行指针运算</strong>。<code>Go</code> 语言允许你控制特定集合的数据结构、分配的数量以及内存访问模式，这对于构建运行良好的系统是非常重要的。指针对于性能的影响不言而喻，如果你想要做系统编程、操作系统或者网络应用，指针更是不可或缺的一部分。</p>
+<p>指针 <code>（pointer）</code> 在 <code>Go</code> 语言中可以被拆分为两个核心概念：</p>
+<ul>
+<li>类型指针，允许对这个指针类型的数据进行修改，传递数据可以直接使用指针，而无须拷贝数据，类型指针不能进行偏移和运算。</li>
+<li>切片，由指向起始元素的原始指针、元素数量和容量组成。</li>
+</ul>
+<p>受益于这样的约束和拆分，<code>Go</code> 语言的指针类型变量即拥有指针高效访问的特点，又不会发生指针偏移，从而避免了非法修改关键性数据的问题。同时，垃圾回收也比较容易对不会发生偏移的指针进行检索和回收。</p>
+<p>切片比原始指针具备更强大的特性，而且更为安全。切片在发生越界时，运行时会报出宕机，并打出堆栈，而原始指针只会崩溃。</p>
+<p><code>C/C++</code> 中的指针</p>
+<p>说到 <code>C/C++</code> 中的指针，会让许多人“谈虎色变”，尤其是对指针的偏移、运算和转换。</p>
+<p>其实，指针是 <code>C/C++</code> 语言拥有极高性能的根本所在，在操作大块数据和做偏移时即方便又便捷。因此，操作系统依然使用 <code>C</code> 语言及指针的特性进行编写。</p>
+<p><code>C/C++</code> 中指针饱受诟病的根本原因是指针的运算和内存释放，<code>C/C++</code> 语言中的裸指针可以自由偏移，甚至可以在某些情况下偏移进入操作系统的核心区域，我们的计算机操作系统经常需要更新、修复漏洞的本质，就是为解决指针越界访问所导致的“缓冲区溢出”的问题。</p>
+<p>要明白指针，需要知道几个概念：指针地址、指针类型和指针取值，下面将展开详细说明。</p>
+<h3 id="指针地址和指针类型"><a href="#指针地址和指针类型" class="headerlink" title="指针地址和指针类型"></a>指针地址和指针类型</h3><p>一个指针变量可以指向任何一个值的内存地址，它所指向的值的内存地址在 <code>32</code> 和 <code>64</code> 位机器上分别占用 <code>4</code> 或 <code>8</code> 个字节，占用字节的大小与所指向的值的大小无关。当一个指针被定义后没有分配到任何变量时，它的默认值为 <code>nil</code>。指针变量通常缩写为 <code>ptr</code> 。</p>
+<p>每个变量在运行时都拥有一个地址，这个地址代表变量在内存中的位置。<code>Go</code> 语言中使用在变量名前面添加 <code>&amp;</code> 操作符（前缀）来获取变量的内存地址（取地址操作），格式如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">ptr := &amp;v    // v 的类型为 T</span><br></pre></td></tr></tbody></table></figure>
+<p>其中 <code>v</code> 代表被取地址的变量，变量 <code>v</code> 的地址使用变量 <code>ptr</code> 进行接收，<code>ptr</code> 的类型为 <code>*T</code> ，称做 <code>T</code> 的指针类型，<code>*</code> 代表指针。</p>
+<p>指针实际用法，可以通过下面的例子了解：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">)</span><br><span class="line">func main() {</span><br><span class="line">    var cat int = 1</span><br><span class="line">    var str string = "banana"</span><br><span class="line">    fmt.Printf("%p %p", &amp;cat, &amp;str)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">0xc042052088 0xc0420461b0</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>8</code> 行，声明整型变量 <code>cat</code> 。</li>
+<li>第 <code>9</code> 行，声明字符串变量 <code>str</code> 。</li>
+<li>第 <code>10</code> 行，使用 <code>fmt.Printf</code> 的动词 <code>%p</code> 打印 <code>cat</code> 和 <code>str</code> 变量的内存地址，指针的值是带有 <code>0x</code> 十六进制前缀的一组数据。</li>
+</ul>
+<p><strong><em>提示：变量、指针和地址三者的关系是，每个变量都拥有地址，指针的值就是地址。</em></strong></p>
+<h3 id="从指针获取指针指向的值"><a href="#从指针获取指针指向的值" class="headerlink" title="从指针获取指针指向的值"></a>从指针获取指针指向的值</h3><p>当使用 <code>&amp;</code> 操作符对普通变量进行取地址操作并得到变量的指针后，可以对指针使用 <code>*</code> 操作符，也就是指针取值，代码如下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">    // 准备一个字符串类型</span><br><span class="line">    var house = "Malibu Point 10880, 90265"</span><br><span class="line"></span><br><span class="line">    // 对字符串取地址, ptr类型为*string</span><br><span class="line">    ptr := &amp;house</span><br><span class="line"></span><br><span class="line">    // 打印ptr的类型</span><br><span class="line">    fmt.Printf("ptr type: %T\n", ptr)</span><br><span class="line"></span><br><span class="line">    // 打印ptr的指针地址</span><br><span class="line">    fmt.Printf("address: %p\n", ptr)</span><br><span class="line"></span><br><span class="line">    // 对指针进行取值操作</span><br><span class="line">    value := *ptr</span><br><span class="line"></span><br><span class="line">    // 取值后的类型</span><br><span class="line">    fmt.Printf("value type: %T\n", value)</span><br><span class="line"></span><br><span class="line">    // 指针取值后就是指向变量的值</span><br><span class="line">    fmt.Printf("value: %s\n", value)</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">ptr type: *string</span><br><span class="line">address: 0xc0420401b0</span><br><span class="line">value type: string</span><br><span class="line">value: Malibu Point 10880, 90265</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>10</code> 行，准备一个字符串并赋值。</li>
+<li>第 <code>13</code> 行，对字符串取地址，将指针保存到变量 <code>ptr</code> 中。</li>
+<li>第 <code>16</code> 行，打印变量 <code>ptr</code> 的类型，其类型为 <code>*string</code>。</li>
+<li>第 <code>19</code> 行，打印 <code>ptr</code> 的指针地址，地址每次运行都会发生变化。</li>
+<li>第 <code>22</code> 行，对 <code>ptr</code> 指针变量进行取值操作，变量 <code>value</code> 的类型为 <code>string</code> 。</li>
+<li>第 <code>25</code> 行，打印取值后 <code>value</code> 的类型。</li>
+<li>第 <code>28</code> 行，打印 <code>value</code> 的值。</li>
+</ul>
+<p>取地址操作符 <code>&amp;</code> 和取值操作符 <code>*</code> 是一对互补操作符，<code>&amp;</code> 取出地址，<code>*</code> 根据地址取出地址指向的值。</p>
+<p>变量、指针地址、指针变量、取地址、取值的相互关系和特性如下：</p>
+<ul>
+<li>对变量进行取地址操作使用 <code>&amp;</code> 操作符，可以获得这个变量的指针变量。</li>
+<li>指针变量的值是指针地址。</li>
+<li>对指针变量进行取值操作使用 <code>*</code> 操作符，可以获得指针变量指向的原变量的值。</li>
+</ul>
+<h3 id="使用指针修改值"><a href="#使用指针修改值" class="headerlink" title="使用指针修改值"></a>使用指针修改值</h3><p>通过指针不仅可以取值，也可以修改值。</p>
+<p>前面已经演示了使用多重赋值的方法进行数值交换，使用指针同样可以进行数值交换，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import "fmt"</span><br><span class="line"></span><br><span class="line">// 交换函数</span><br><span class="line">func swap(a, b *int) {</span><br><span class="line"></span><br><span class="line">    // 取a指针的值, 赋给临时变量t</span><br><span class="line">    t := *a</span><br><span class="line"></span><br><span class="line">    // 取b指针的值, 赋给a指针指向的变量</span><br><span class="line">    *a = *b</span><br><span class="line"></span><br><span class="line">    // 将a指针的值赋给b指针指向的变量</span><br><span class="line">    *b = t</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">    // 准备两个变量, 赋值1和2</span><br><span class="line">    x, y := 1, 2</span><br><span class="line"></span><br><span class="line">    // 交换变量值</span><br><span class="line">    swap(&amp;x, &amp;y)</span><br><span class="line"></span><br><span class="line">    // 输出变量值</span><br><span class="line">    fmt.Println(x, y)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">2 1</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>6</code> 行，定义一个交换函数，参数为 <code>a</code> 、<code>b</code>，类型都为 <code>*int</code> 指针类型。</li>
+<li>第 <code>9</code> 行，取指针 <code>a</code> 的值，并把值赋给变量 <code>t</code> ，<code>t</code> 此时是 <code>int</code> 类型。</li>
+<li>第 <code>12</code> 行，取 <code>b</code> 的指针值，赋给指针 <code>a</code> 指向的变量。注意，此时 <code>*a</code> 的意思不是取 <code>a</code> 指针的值，而是<code>a 指向的变量</code> 。</li>
+<li>第 <code>15</code> 行，将 <code>t</code> 的值赋给指针 <code>b</code> 指向的变量。</li>
+<li>第 <code>21</code> 行，准备 <code>x</code> 、<code>y</code> 两个变量，分别赋值为 <code>1</code> 和 <code>2</code> ，类型为 <code>int</code> 。</li>
+<li>第 <code>24</code> 行，取出 <code>x</code> 和 <code>y</code> 的地址作为参数传给 <code>swap()</code> 函数进行调用。</li>
+<li>第 <code>27</code> 行，交换完毕时，输出 <code>x</code> 和 <code>y</code> 的值。</li>
+</ul>
+<p><code>*</code> 操作符作为右值时，意义是取指针的值，作为左值时，也就是放在赋值操作符的左边时，表示 <code>a</code> 指针指向的变量。其实归纳起来，<code>*</code> 操作符的根本意义就是操作指针指向的变量。当操作在右值时，就是取指向变量的值，当操作在左值时，就是将值设置给指向的变量。</p>
+<p>如果在 <code>swap()</code> 函数中交换操作的是指针值，会发生什么情况？可以参考下面代码：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import "fmt"</span><br><span class="line"></span><br><span class="line">func swap(a, b *int) {</span><br><span class="line">    b, a = a, b</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line">    x, y := 1, 2</span><br><span class="line">    swap(&amp;x, &amp;y)</span><br><span class="line">    fmt.Println(x, y)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">1 2</span><br></pre></td></tr></tbody></table></figure>
+<p>结果表明，交换是不成功的。上面代码中的 <code>swap()</code> 函数交换的是 <code>a</code> 和 <code>b</code> 的地址，在交换完毕后，<code>a</code> 和 <code>b</code> 的变量值确实被交换。但和 <code>a</code> 、<code>b</code> 关联的两个变量并没有实际关联。这就像写有两座房子的卡片放在桌上一字摊开，交换两座房子的卡片后并不会对两座房子有任何影响。</p>
+<h3 id="示例：使用指针变量获取命令行的输入信息"><a href="#示例：使用指针变量获取命令行的输入信息" class="headerlink" title="示例：使用指针变量获取命令行的输入信息"></a>示例：使用指针变量获取命令行的输入信息</h3><p><code>Go</code> 语言内置的 <code>flag</code> 包实现了对命令行参数的解析，<code>flag</code> 包使得开发命令行工具更为简单。</p>
+<p>下面的代码通过提前定义一些命令行指令和对应的变量，并在运行时输入对应的参数，经过 <code>flag</code> 包的解析后即可获取命令行的数据。</p>
+<p>【示例】获取命令行输入：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">// 导入系统包</span><br><span class="line">import (</span><br><span class="line">    "flag"</span><br><span class="line">    "fmt"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 定义命令行参数</span><br><span class="line">var mode = flag.String("mode", "", "process mode")</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">    // 解析命令行参数</span><br><span class="line">    flag.Parse()</span><br><span class="line"></span><br><span class="line">    // 输出命令行参数</span><br><span class="line">    fmt.Println(*mode)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>将这段代码命名为 main.go，然后使用如下命令行运行：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">go run main.go --mode=fast</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">fast</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>10</code> 行，通过 <code>flag.String</code>，定义一个 <code>mode</code> 变量，这个变量的类型是 <code>*string</code>。后面 <code>3</code> 个参数分别如下：<ul>
+<li>参数名称：在命令行输入参数时，使用这个名称。</li>
+<li>参数值的默认值：与 <code>flag</code> 所使用的函数创建变量类型对应，<code>String</code> 对应字符串、<code>Int</code> 对应整型、<code>Bool</code> 对应布尔型等。</li>
+<li>参数说明：使用 <code>-help</code> 时，会出现在说明中。</li>
+</ul>
+</li>
+<li>第 <code>15</code> 行，解析命令行参数，并将结果写入到变量 <code>mode</code> 中。</li>
+<li>第 <code>18</code> 行，打印 <code>mode</code> 指针所指向的变量。</li>
+</ul>
+<p>由于之前已经使用 <code>flag.String</code> 注册了一个名为 <code>mode</code> 的命令行参数，<code>flag</code> 底层知道怎么解析命令行，并且将值赋给 <code>mode*string</code> 指针，在 <code>Parse</code> 调用完毕后，无须从 <code>flag</code> 获取值，而是通过自己注册的这个 <code>mode</code> 指针获取到最终的值。代码运行流程如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wssjdi/statics/imgs/pstr.jpg" alt="图：命令行参数与变量的关系"></p>
+<h3 id="创建指针的另一种方法——-new-函数"><a href="#创建指针的另一种方法——-new-函数" class="headerlink" title="创建指针的另一种方法—— new() 函数"></a>创建指针的另一种方法—— <code>new()</code> 函数</h3><p><code>Go</code> 语言还提供了另外一种方法来创建指针变量，格式如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">new(类型)</span><br></pre></td></tr></tbody></table></figure>
+<p>一般这样写：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">str := new(string)</span><br><span class="line">*str = "Go语言教程"</span><br><span class="line">fmt.Println(*str)</span><br></pre></td></tr></tbody></table></figure>
+<p><code>new()</code> 函数可以创建一个对应类型的指针，创建过程会分配内存，被创建的指针指向默认值。</p>
+<h2 id="变量逃逸分析"><a href="#变量逃逸分析" class="headerlink" title="变量逃逸分析"></a>变量逃逸分析</h2><p>了解下计算机组成里两个非常重要的概念：堆和栈。</p>
+<h3 id="什么是栈"><a href="#什么是栈" class="headerlink" title="什么是栈"></a>什么是栈</h3><p>栈（Stack）是一种拥有特殊规则的线性表数据结构。</p>
+<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>栈只允许从线性表的同一端放入和取出数据，按照后进先出<code>（LIFO，Last InFirst Out）</code>的顺序，如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wssjdi/statics/imgs/stackImage.jpg" alt="图：栈的操作及扩展"></p>
+<p>往栈中放入元素的过程叫做入栈。入栈会增加栈的元素数量，最后放入的元素总是位于栈的顶部，最先放入的元素总是位于栈的底部。</p>
+<p>从栈中取出元素时，只能从栈顶部取出。取出元素后，栈的元素数量会变少。最先放入的元素总是最后被取出，最后放入的元素总是最先被取出。不允许从栈底获取数据，也不允许对栈成员（除了栈顶部的成员）进行任何查看和修改操作。</p>
+<p>栈的原理类似于将书籍一本一本地堆起来。书按顺序一本一本从顶部放入，要取书时只能从顶部一本一本取出。</p>
+<h4 id="变量和栈有什么关系"><a href="#变量和栈有什么关系" class="headerlink" title="变量和栈有什么关系"></a>变量和栈有什么关系</h4><p>栈可用于内存分配，栈的分配和回收速度非常快。下面的代码展示了栈在内存分配上的作用：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func calc(a, b int) int {</span><br><span class="line">    var c int</span><br><span class="line">    c = a * b</span><br><span class="line"></span><br><span class="line">    var x int</span><br><span class="line">    x = c * 10</span><br><span class="line"></span><br><span class="line">    return x</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>1</code> 行，传入 <code>a</code> 、<code>b</code> 两个整型参数。</li>
+<li>第 <code>2</code> 行，声明整型变量 <code>c</code>，运行时，<code>c</code> 会分配一段内存用以存储 <code>c</code> 的数值。</li>
+<li>第 <code>3</code> 行，将 <code>a</code> 和 <code>b</code> 相乘后赋值给 <code>c</code>。</li>
+<li>第 <code>5</code> 行，声明整型变量 <code>x</code> ，<code>x</code> 也会被分配一段内存。</li>
+<li>第 <code>6</code> 行，让 <code>c</code> 乘以 <code>10</code> 后赋值给变量 <code>x</code> 。</li>
+<li>第 <code>8</code> 行，返回 <code>x</code> 的值。</li>
+</ul>
+<p>上面的代码在没有任何优化的情况下，会进行变量 <code>c</code> 和 <code>x</code> 的分配过程。<code>Go</code> 语言默认情况下会将 <code>c</code> 和 <code>x</code> 分配在栈上，这两个变量在 <code>calc()</code> 函数退出时就不再使用，函数结束时，保存 <code>c</code> 和 <code>x</code> 的栈内存再出栈释放内存，整个分配内存的过程通过栈的分配和回收都会非常迅速。</p>
+<h3 id="什么是堆"><a href="#什么是堆" class="headerlink" title="什么是堆"></a>什么是堆</h3><p>堆在内存分配中类似于往一个房间里摆放各种家具，家具的尺寸有大有小，分配内存时，需要找一块足够装下家具的空间再摆放家具。经过反复摆放和腾空家具后，房间里的空间会变得乱七八糟，此时再往这个空间里摆放家具会发现虽然有足够的空间，但各个空间分布在不同的区域，没有一段连续的空间来摆放家具。此时，内存分配器就需要对这些空间进行调整优化，如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wssjdi/statics/imgs/heapImage.jpg" alt="图：堆的分配及空间"></p>
+<p>堆分配内存和栈分配内存相比，堆适合不可预知大小的内存分配。但是为此付出的代价是分配速度较慢，而且会形成内存碎片。</p>
+<h3 id="变量逃逸-（Escape-Analysis）-——-自动决定变量分配方式，提高运行效率"><a href="#变量逃逸-（Escape-Analysis）-——-自动决定变量分配方式，提高运行效率" class="headerlink" title="变量逃逸 （Escape Analysis） —— 自动决定变量分配方式，提高运行效率"></a>变量逃逸 <code>（Escape Analysis）</code> —— 自动决定变量分配方式，提高运行效率</h3><p>堆和栈各有优缺点，该怎么在编程中处理这个问题呢？在 <code>C/C++</code> 语言中，需要开发者自己学习如何进行内存分配，选用怎样的内存分配方式来适应不同的算法需求。比如，函数局部变量尽量使用栈，全局变量、结构体成员使用堆分配等。程序员不得不花费很长的时间在不同的项目中学习、记忆这些概念并加以实践和使用。</p>
+<p><code>Go</code> 语言将这个过程整合到了编译器中，命名为 <code>变量逃逸分析</code> 。通过编译器分析代码的特征和代码的生命周期，决定应该使用堆还是栈来进行内存分配。</p>
+<h4 id="逃逸分析"><a href="#逃逸分析" class="headerlink" title="逃逸分析"></a>逃逸分析</h4><p>通过下面的代码来展现 <code>Go</code> 语言如何使用命令行来分析变量逃逸，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import "fmt"</span><br><span class="line"></span><br><span class="line">// 本函数测试入口参数和返回值情况</span><br><span class="line">func dummy(b int) int {</span><br><span class="line">  // 声明一个变量c并赋值</span><br><span class="line">  var c int</span><br><span class="line">  c = b</span><br><span class="line"></span><br><span class="line">  return c</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">// 空函数, 什么也不做</span><br><span class="line">func void() {</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">  // 声明a变量并打印</span><br><span class="line">  var a int</span><br><span class="line"></span><br><span class="line">  // 调用void()函数</span><br><span class="line">  void()</span><br><span class="line"></span><br><span class="line">  // 打印a变量的值和dummy()函数返回</span><br><span class="line">  fmt.Println(a, dummy(0))</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>6</code> 行，<code>dummy()</code> 函数拥有一个参数，返回一个整型值，用来测试函数参数和返回值分析情况。</li>
+<li>第 <code>8</code> 行，声明变量 <code>c</code> ，用于演示函数临时变量通过函数返回值返回后的情况。</li>
+<li>第 <code>15</code> 行，这是一个空函数，测试没有任何参数函数的分析情况。</li>
+<li>第 <code>21</code> 行，在 <code>main()</code> 中声明变量 <code>a</code> ，测试 <code>main()</code> 中变量的分析情况。</li>
+<li>第 <code>24</code> 行，调用 <code>void()</code> 函数，没有返回值，测试 <code>void()</code> 调用后的分析情况。</li>
+<li>第 <code>27</code> 行，打印 <code>a</code> 和 <code>dummy(0)</code> 的返回值，测试函数返回值没有变量接收时的分析情况。</li>
+</ul>
+<p>接着使用如下命令行运行上面的代码：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">go run -gcflags "-m -l" goEscapeAnalysis.go</span><br></pre></td></tr></tbody></table></figure>
+<p>使用 <code>go run</code> 运行程序时，<code>-gcflags</code> 参数是编译参数。其中 <code>-m</code> 表示进行内存分配分析，<code>-l</code> 表示避免程序内联，也就是避免进行程序优化。</p>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># command-line-arguments</span><br><span class="line">.\goEscapeAnalysis.go:27:13: ... argument does not escape</span><br><span class="line">.\goEscapeAnalysis.go:27:13: a escapes to heap</span><br><span class="line">.\goEscapeAnalysis.go:27:22: dummy(0) escapes to heap</span><br><span class="line">0 0</span><br></pre></td></tr></tbody></table></figure>
+<p>程序运行结果分析如下：</p>
+<ul>
+<li>第 <code>2</code> 行，这句提示是默认的，可以忽略。</li>
+<li>第 <code>3</code> 行告知“代码的第 <code>27</code> 行的变量 <code>a</code> 逃逸到堆”。</li>
+<li>第 <code>4</code> 行告知“dummy(0) 调用逃逸到堆”。由于 <code>dummy()</code> 函数会返回一个整型值，这个值被 <code>fmt.Println</code> 使用后还是会在 <code>main()</code> 函数中继续存在。</li>
+</ul>
+<p>上面例子中变量 <code>c</code> 是整型，其值通过 <code>dummy()</code> 的返回值“逃出”了 <code>dummy()</code> 函数。变量 <code>c</code> 的值被复制并作为 <code>dummy()</code> 函数的返回值返回，即使变量 <code>c</code> 在 <code>dummy()</code> 函数中分配的内存被释放，也不会影响 <code>main()</code> 中使用 <code>dummy()</code> 返回的值。变量 <code>c</code> 使用栈分配不会影响结果。</p>
+<h4 id="取地址发生逃逸"><a href="#取地址发生逃逸" class="headerlink" title="取地址发生逃逸"></a>取地址发生逃逸</h4><p>下面的例子使用结构体做数据，来了解结构体在堆上的分配情况，代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import "fmt"</span><br><span class="line"></span><br><span class="line">// 声明空结构体测试结构体逃逸情况</span><br><span class="line">type Data struct {</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func dummy() *Data {</span><br><span class="line">    // 实例化c为Data类型</span><br><span class="line">    var c Data</span><br><span class="line"></span><br><span class="line">    //返回函数局部变量地址</span><br><span class="line">    return &amp;c</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line">    fmt.Println(dummy())</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>6</code> 行，声明一个空的结构体做结构体逃逸分析。</li>
+<li>第 <code>9</code> 行，将 <code>dummy()</code> 函数的返回值修改为 <code>*Data</code> 指针类型。</li>
+<li>第 <code>11</code> 行，将变量 <code>c</code> 声明为 <code>Data</code> 类型，此时 <code>c</code> 的结构体为值类型。</li>
+<li>第 <code>14</code> 行，取函数局部变量 <code>c</code> 的地址并返回。</li>
+<li>第 <code>18</code> 行，打印 <code>dummy()</code> 函数的返回值。</li>
+</ul>
+<p>执行逃逸分析：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># command-line-arguments</span><br><span class="line">.\goPstrAnalysis.go:11:6: moved to heap: c</span><br><span class="line">.\goPstrAnalysis.go:18:13: ... argument does not escape</span><br><span class="line">&amp;{}</span><br></pre></td></tr></tbody></table></figure>
+<p>注意第 <code>2</code> 行出现了新的提示：将 <code>c</code> 移到堆中。这句话表示，<code>Go</code> 编译器已经确认如果将变量 <code>c</code> 分配在栈上是无法保证程序最终结果的，如果这样做，<code>dummy()</code> 函数的返回值将是一个不可预知的内存地址，这种情况一般是 <code>C/C++</code> 语言中容易犯错的地方，引用了一个函数局部变量的地址。</p>
+<p><code>Go</code> 语言最终选择将 <code>c</code> 的 <code>Data</code> 结构分配在堆上。然后由垃圾回收器去回收 <code>c</code> 的内存。</p>
+<h4 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h4><p>在使用 <code>Go</code> 语言进行编程时，<code>Go</code> 语言的设计者不希望开发者将精力放在内存应该分配在栈还是堆的问题上，编译器会自动帮助开发者完成这个纠结的选择，但变量逃逸分析也是需要了解的一个编译器技术，这个技术不仅用于<code>Go</code>语言，在 <code>Java</code> 等语言的编译器优化上也使用了类似的技术。</p>
+<p>编译器觉得变量应该分配在堆和栈上的原则是：</p>
+<ul>
+<li>变量是否被取地址；</li>
+<li>变量是否发生逃逸。</li>
+</ul>
+<h2 id="变量的生命周期"><a href="#变量的生命周期" class="headerlink" title="变量的生命周期"></a>变量的生命周期</h2><p>变量的生命周期指的是在程序运行期间变量有效存在的时间间隔</p>
+<p>变量的生命周期与变量的作用域有着不可分割的联系：</p>
+<ul>
+<li>全局变量：它的生命周期和整个程序的运行周期是一致的；</li>
+<li>局部变量：它的生命周期则是动态的，从创建这个变量的声明语句开始，到这个变量不再被引用为止；</li>
+<li>形式参数和函数返回值：它们都属于局部变量，在函数被调用的时候创建，函数调用结束后被销毁。</li>
+</ul>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">for t := 0.0; t &lt; cycles*2*math.Pi; t += res {</span><br><span class="line">    x := math.Sin(t)</span><br><span class="line">    y := math.Sin(t*freq + phase)</span><br><span class="line">    img.SetColorIndex(</span><br><span class="line">        size+int(x*size+0.5), size+int(y*size+0.5),</span><br><span class="line">        blackIndex, // 最后插入的逗号不会导致编译错误，这是Go编译器的一个特性</span><br><span class="line">    )               // 小括号另起一行缩进，和大括号的风格保存一致</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>上面代码中，在每次循环的开始会创建临时变量 <code>t</code> ，然后在每次循环迭代中创建临时变量 <code>x</code> 和 <code>y</code>。临时变量 <code>x</code>、<code>y</code> 存放在栈中，随着函数执行结束（执行遇到最后一个}），释放其内存。</p>
+<p>栈的和堆的区别在于：</p>
+<ul>
+<li>堆<code>（heap）</code>：堆是用于存放进程执行中被动态分配的内存段。它的大小并不固定，可动态扩张或缩减。当进程调用 <code>malloc</code> 等函数分配内存时，新分配的内存就被动态加入到堆上（堆被扩张）。当利用 <code>free</code> 等函数释放内存时，被释放的内存从堆中被剔除（堆被缩减）；</li>
+<li>栈<code>(stack)</code>：栈又称堆栈， 用来存放程序暂时创建的局部变量，也就是我们函数的大括号{ }中定义的局部变量。</li>
+</ul>
+<p>在程序的编译阶段，编译器会根据实际情况自动选择在栈或者堆上分配局部变量的存储空间，不论使用 <code>var</code> 还是 <code>new</code> 关键字声明变量都不会影响编译器的选择。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var global *int</span><br><span class="line"></span><br><span class="line">func f() {</span><br><span class="line">    var x int</span><br><span class="line">    x = 1</span><br><span class="line">    global = &amp;x</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func g() {</span><br><span class="line">    y := new(int)</span><br><span class="line">    *y = 1</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>上述代码中，函数 <code>f</code> 里的变量 <code>x</code> 必须在堆上分配，因为它在函数退出后依然可以通过包一级的 <code>global</code> 变量找到，虽然它是在函数内部定义的。用 <code>Go</code> 语言的术语说，这个局部变量 <code>x</code> 从函数 <code>f</code> 中逃逸了。</p>
+<p>相反，当函数 <code>g</code> 返回时，变量 <code>*y</code> 不再被使用，也就是说可以马上被回收的。因此，<code>*y</code> 并没有从函数 <code>g</code> 中逃逸，编译器可以选择在栈上分配 <code>*y</code> 的存储空间，也可以选择在堆上分配，然后由 <code>Go</code> 语言的 <code>GC（垃圾回收机制）</code> 回收这个变量的内存空间。</p>
+<p>在实际的开发中，并不需要刻意的实现变量的逃逸行为，因为逃逸的变量需要额外分配内存，同时对性能的优化可能会产生细微的影响。</p>
+<p>虽然 <code>Go</code> 语言能够帮助我们完成对内存的分配和释放，但是为了能够开发出高性能的应用我们仍然需要了解变量的声明周期。例如，如果将局部变量赋值给全局变量，将会阻止 <code>GC</code> 对这个局部变量的回收，导致不必要的内存占用，从而影响程序的性能。</p>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p><code>Go</code> 语言中的常量使用关键字 <code>const</code> 定义，用于存储不会改变的数据，常量是在编译时被创建的，即使定义在函数内部也是如此，并且只能是布尔型、数字型（整数型、浮点型和复数）和字符串型。由于编译时的限制，定义常量的表达式必须为能被编译器求值的常量表达式。</p>
+<p>常量的定义格式和变量的声明语法类似：<code>const name [type] = value</code> ，例如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const pi = 3.14159 // 相当于 math.Pi 的近似值</span><br></pre></td></tr></tbody></table></figure>
+<p>在 <code>Go</code> 语言中，你可以省略类型说明符 <code>[type]</code> ，因为编译器可以根据变量的值来推断其类型。</p>
+<ul>
+<li>显式类型定义： <code>const b string = "abc"</code></li>
+<li>隐式类型定义： <code>const b = "abc"</code></li>
+</ul>
+<p>常量的值必须是能够在编译时就能够确定的，可以在其赋值表达式中涉及计算过程，但是所有用于计算的值必须在编译期间就能获得。</p>
+<ul>
+<li>正确的做法：<code>const c1 = 2/3</code></li>
+<li>错误的做法：<code>const c2 = getNumber()</code> // 引发构建错误: getNumber() 用做值</li>
+</ul>
+<p>和变量声明一样，可以批量声明多个常量：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const (</span><br><span class="line">    e  = 2.7182818</span><br><span class="line">    pi = 3.1415926</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
+<p>所有常量的运算都可以在编译期完成，这样不仅可以减少运行时的工作，也方便其他代码的编译优化，当操作数是常量时，一些运行时的错误也可以在编译时被发现，例如整数除零、字符串索引越界、任何导致无效浮点数的操作等。</p>
+<p>常量间的所有算术运算、逻辑运算和比较运算的结果也是常量，对常量的类型转换操作或以下函数调用都是返回常量结果：<code>len</code>、<code>cap</code>、<code>real</code>、<code>imag</code>、<code>complex</code> 和 <code>unsafe.Sizeof</code>。</p>
+<p>因为它们的值是在编译期就确定的，因此常量可以是构成类型的一部分，例如用于指定数组类型的长度：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const IPv4Len = 4</span><br><span class="line"></span><br><span class="line">// parseIPv4 解析一个 IPv4 地址 (d.d.d.d).</span><br><span class="line">func parseIPv4(s string) IP {</span><br><span class="line">    var p [IPv4Len]byte</span><br><span class="line">    // ...</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>一个常量的声明也可以包含一个类型和一个值，但是如果没有显式指明类型，那么将从右边的表达式推断类型。在下面的代码中，<code>time.Duration</code> 是一个命名类型，底层类型是 <code>int64</code>，<code>time.Minute</code> 是对应类型的常量。下面声明的两个常量都是 <code>time.Duration</code> 类型，可以通过 <code>%T</code> 参数打印类型信息：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const noDelay time.Duration = 0</span><br><span class="line">const timeout = 5 * time.Minute</span><br><span class="line">fmt.Printf("%T %[1]v\n", noDelay)     // "time.Duration 0"</span><br><span class="line">fmt.Printf("%T %[1]v\n", timeout)     // "time.Duration 5m0s"</span><br><span class="line">fmt.Printf("%T %[1]v\n", time.Minute) // "time.Duration 1m0s"</span><br></pre></td></tr></tbody></table></figure>
+<p>如果是批量声明的常量，除了第一个外其它的常量右边的初始化表达式都可以省略，如果省略初始化表达式则表示使用前面常量的初始化表达式，对应的常量类型也是一样的。例如：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const (</span><br><span class="line">    a = 1</span><br><span class="line">    b</span><br><span class="line">    c = 2</span><br><span class="line">    d</span><br><span class="line">)</span><br><span class="line">fmt.Println(a, b, c, d) // "1 1 2 2"</span><br></pre></td></tr></tbody></table></figure>
+<p>如果只是简单地复制右边的常量表达式，其实并没有太实用的价值。但是它可以带来其它的特性，那就是 <code>iota</code> 常量生成器语法。</p>
+<h3 id="iota-常量生成器"><a href="#iota-常量生成器" class="headerlink" title="iota 常量生成器"></a>iota 常量生成器</h3><p>常量声明可以使用 <code>iota</code> 常量生成器初始化，它用于生成一组以相似规则初始化的常量，但是不用每行都写一遍初始化表达式。在一个 <code>const</code> 声明语句中，在第一个声明的常量所在的行，<code>iota</code> 将会被置为 <code>0</code> ，然后在每一个有常量声明的行加一。</p>
+<p>【示例 1】首先定义一个 <code>Weekday</code> 命名类型，然后为一周的每天定义了一个常量，从周日 <code>0</code> 开始。在其它编程语言中，这种类型一般被称为枚举类型。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type Weekday int</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">    Sunday Weekday = iota</span><br><span class="line">    Monday</span><br><span class="line">    Tuesday</span><br><span class="line">    Wednesday</span><br><span class="line">    Thursday</span><br><span class="line">    Friday</span><br><span class="line">    Saturday</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
+<p>周日将对应 0，周一为 1，以此类推。</p>
+<h3 id="无类型常量"><a href="#无类型常量" class="headerlink" title="无类型常量"></a>无类型常量</h3><p><code>Go</code> 语言的常量有个不同寻常之处。虽然一个常量可以有任意一个确定的基础类型，例如 <code>int</code> 或 <code>float64</code>，或者是类似 <code>time.Duration</code> 这样的基础类型，但是许多常量并没有一个明确的基础类型。</p>
+<p>编译器为这些没有明确的基础类型的数字常量提供比基础类型更高精度的算术运算，可以认为至少有 <code>256bit</code> 的运算精度。这里有六种未明确类型的常量类型，分别是无类型的布尔型、无类型的整数、无类型的字符、无类型的浮点数、无类型的复数、无类型的字符串。</p>
+<p>通过延迟明确常量的具体类型，不仅可以提供更高的运算精度，而且可以直接用于更多的表达式而不需要显式的类型转换。</p>
+<p>【示例 2】math.Pi 无类型的浮点数常量，可以直接用于任意需要浮点数或复数的地方：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var x float32 = math.Pi</span><br><span class="line">var y float64 = math.Pi</span><br><span class="line">var z complex128 = math.Pi</span><br></pre></td></tr></tbody></table></figure>
+<p>如果 <code>math.Pi</code> 被确定为特定类型，比如 <code>float64</code> ，那么结果精度可能会不一样，同时对于需要 <code>float32</code> 或 <code>complex128</code> 类型值的地方则需要一个明确的强制类型转换：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const Pi64 float64 = math.Pi</span><br><span class="line">var x float32 = float32(Pi64)</span><br><span class="line">var y float64 = Pi64</span><br><span class="line">var z complex128 = complex128(Pi64)</span><br></pre></td></tr></tbody></table></figure>
+<p>对于常量面值，不同的写法可能会对应不同的类型。例如 <code>0</code> 、<code>0.0</code> 、<code>0i</code> 和 <code>\u0000</code> 虽然有着相同的常量值，但是它们分别对应无类型的整数、无类型的浮点数、无类型的复数和无类型的字符等不同的常量类型。同样，<code>true</code> 和 <code>false</code> 也是无类型的布尔类型，字符串面值常量是无类型的字符串类型。</p>
+<h2 id="模拟枚举"><a href="#模拟枚举" class="headerlink" title="模拟枚举"></a>模拟枚举</h2><p><code>Go</code> 语言现阶段没有枚举类型，但是可以使用 <code>const</code> 常量配合上一节 <code>Go语言常量</code> 中介绍的 <code>iota</code> 来模拟枚举类型，请看下面的代码：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type Weapon int</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">     Arrow Weapon = iota    // 开始生成枚举值, 默认为0</span><br><span class="line">     Shuriken</span><br><span class="line">     SniperRifle</span><br><span class="line">     Rifle</span><br><span class="line">     Blower</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 输出所有枚举值</span><br><span class="line">fmt.Println(Arrow, Shuriken, SniperRifle, Rifle, Blower)</span><br><span class="line"></span><br><span class="line">// 使用枚举类型并赋初值</span><br><span class="line">var weapon Weapon = Blower</span><br><span class="line">fmt.Println(weapon)</span><br></pre></td></tr></tbody></table></figure>
+<p>代码输出如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">0 1 2 3 4</span><br><span class="line">4</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>1</code> 行中，将 <code>int</code> 定义为 <code>Weapon</code> 类型，就像枚举类型的本质是一个 <code>int</code> 类型一样。当然，某些情况下，如果需要 <code>int32</code> 和 <code>int64</code> 的枚举，也是可以的。</li>
+<li>第 <code>4</code> 行中，将常量 <code>Arrow</code> 的类型标识为 <code>Weapon</code>，这样标识后，<code>const</code> 下方的常量可以使用 <code>Weapon</code> 作为默认类型。该行使用 <code>iota</code> 进行常量值自动生成，<code>iota</code> 的起始值为 <code>0</code>，一般情况下也是建议枚举从 <code>0</code> 开始，让每个枚举类型都有一个空值，方便业务和逻辑的灵活使用。</li>
+</ul>
+<p>一个 <code>const</code> 声明内的每一行常量声明，将会自动套用前面的 <code>iota</code> 格式，并自动增加，类似于电子表格中单元格自动填充的效果，只需要建立好单元格之间的变化关系，拖动右下方的小点就可以自动生成单元格的值。</p>
+<p>当然，<code>iota</code> 不仅可以生成每次增加 <code>1</code> 的枚举值。还可以利用 <code>iota</code> 来做一些强大的枚举常量值生成器。下面的代码可以方便的生成标志位常量：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">const (</span><br><span class="line">    FlagNone = 1 &lt;&lt; iota</span><br><span class="line">    FlagRed</span><br><span class="line">    FlagGreen</span><br><span class="line">    FlagBlue</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">fmt.Printf("%d %d %d\n", FlagRed, FlagGreen, FlagBlue)</span><br><span class="line">fmt.Printf("%b %b %b\n", FlagRed, FlagGreen, FlagBlue)</span><br></pre></td></tr></tbody></table></figure>
+<p>代码输出如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">2 4 8</span><br><span class="line">10 100 1000</span><br></pre></td></tr></tbody></table></figure>
+<p>在代码中编写一些标志位时，我们往往手动编写常量值，常量值特别多时，很容易重复或者写错，因此，使用 <code>ioto</code> 自动生成更加方便。</p>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>2</code> 行中 <code>iota</code> 使用了一个移位操作，每次将上一次的值左移一位（二进制位），以得出每一位的常量值。</li>
+<li>第 <code>8</code> 行，将 <code>3</code> 个枚举按照常量输出，分别输出 <code>2</code>、<code>4</code>、<code>8</code>，都是将 <code>1</code> 每次左移一位的结果。</li>
+<li>第 <code>9</code> 行，将枚举值按二进制格式输出，可以清晰地看到每一位的变化。</li>
+</ul>
+<h3 id="将枚举值转换为字符串"><a href="#将枚举值转换为字符串" class="headerlink" title="将枚举值转换为字符串"></a>将枚举值转换为字符串</h3><p>枚举在 <code>C#</code> , <code>java</code> 中是一个独立的类型，可以通过枚举值获取该值对应的字符串。例如，<code>C#</code> 中 <code>Week</code> 枚举值 <code>Monday</code> 为 <code>1</code> ，那么可以通过 <code>Week.Monday.ToString()</code> 函数获得 <code>Monday</code> 字符串。</p>
+<p><code>Go</code> 语言中也可以实现这一功能，代码如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import "fmt"</span><br><span class="line"></span><br><span class="line">// 声明芯片类型</span><br><span class="line">type ChipType int</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">    None ChipType = iota</span><br><span class="line">    CPU    // 中央处理器</span><br><span class="line">    GPU    // 图形处理器</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func (c ChipType) String() string {</span><br><span class="line">    switch c {</span><br><span class="line">    case None:</span><br><span class="line">        return "None"</span><br><span class="line">    case CPU:</span><br><span class="line">        return "CPU"</span><br><span class="line">    case GPU:</span><br><span class="line">        return "GPU"</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    return "N/A"</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">    // 输出CPU的值并以整型格式显示</span><br><span class="line">    fmt.Printf("%s %d", CPU, CPU)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">CPU 1</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>6</code> 行，将 <code>int</code> 声明为 <code>ChipType</code> 芯片类型。</li>
+<li>第 <code>9</code> 行，将 <code>const</code> 里定义的常量值设为 <code>ChipType</code> 类型，且从 <code>0</code> 开始，每行值加 <code>1</code>。</li>
+<li>第 <code>14</code> 行，定义 <code>ChipType</code> 类型的方法 <code>String()</code>，返回值为字符串类型。</li>
+<li>第 <code>15～22</code> 行，使用 <code>switch</code> 语句判断当前的 <code>ChitType</code> 类型的值，返回对应的字符串。</li>
+<li>第 <code>30</code> 行，按整型的格式输出 <code>CPU</code> 的值。</li>
+</ul>
+<p><code>String()</code> 方法的 <code>ChipType</code> 在使用上和普通的常量没有区别。当这个类型需要显示为字符串时，<code>Go</code> 语言会自动寻找 <code>String()</code> 方法并进行调用。</p>
+<h2 id="类型别名"><a href="#类型别名" class="headerlink" title="类型别名"></a>类型别名</h2><p><code>Go</code> 语言新版本的功能，内容上会涉及后续章节讲解的类型定义及结构体嵌入等特性。另外，本节内容适用于对Go语言很熟悉且正在关注工程升级、代码重构等问题的读者阅读。</p>
+<p>类型别名是 <code>Go 1.9</code> 版本添加的新功能，主要用于解决代码升级、迁移中存在的类型兼容性问题。在 <code>C/C++</code> 语言中，代码重构升级可以使用宏快速定义一段新的代码，<code>Go</code> 语言中没有选择加入宏，而是解决了重构中最麻烦的类型名变更问题。</p>
+<p>在 <code>Go 1.9</code> 版本之前定义内建类型的代码是这样写的：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type byte uint8</span><br><span class="line">type rune int32</span><br></pre></td></tr></tbody></table></figure>
+<p>而在 Go 1.9 版本之后变为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type byte = uint8</span><br><span class="line">type rune = int32</span><br></pre></td></tr></tbody></table></figure>
+<p>这个修改就是配合类型别名而进行的修改。</p>
+<h3 id="区分类型别名与类型定义"><a href="#区分类型别名与类型定义" class="headerlink" title="区分类型别名与类型定义"></a>区分类型别名与类型定义</h3><p>定义类型别名的写法为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type TypeAlias = Type</span><br></pre></td></tr></tbody></table></figure>
+<p>类型别名规定：<code>TypeAlias</code> 只是 <code>Type</code> 的别名，本质上 <code>TypeAlias</code> 与 <code>Type</code> 是同一个类型，就像一个孩子小时候有小名、乳名，上学后用学名，英语老师又会给他起英文名，但这些名字都指的是他本人。</p>
+<p>类型别名与类型定义表面上看只有一个等号的差异，那么它们之间实际的区别有哪些呢？下面通过一段代码来理解。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 将NewInt定义为int类型</span><br><span class="line">type NewInt int</span><br><span class="line"></span><br><span class="line">// 将int取一个别名叫IntAlias</span><br><span class="line">type IntAlias = int</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">    // 将a声明为NewInt类型</span><br><span class="line">    var a NewInt</span><br><span class="line">    // 查看a的类型名</span><br><span class="line">    fmt.Printf("a type: %T\n", a)</span><br><span class="line"></span><br><span class="line">    // 将a2声明为IntAlias类型</span><br><span class="line">    var a2 IntAlias</span><br><span class="line">    // 查看a2的类型名</span><br><span class="line">    fmt.Printf("a2 type: %T\n", a2)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码运行结果：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">a type: main.NewInt</span><br><span class="line">a2 type: int</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>8</code> 行，将 <code>NewInt</code> 定义为 <code>int</code> 类型，这是常见的定义类型的方法，通过 <code>type</code> 关键字的定义，<code>NewInt</code> 会形成一种新的类型，<code>NewInt</code> 本身依然具备 <code>int</code> 类型的特性。</li>
+<li>第 <code>11</code> 行，将 <code>IntAlias</code> 设置为 <code>int</code> 的一个别名，使用 <code>IntAlias</code> 与 <code>int</code> 等效。</li>
+<li>第 <code>16</code> 行，将 <code>a</code> 声明为 <code>NewInt</code> 类型，此时若打印，则 <code>a</code> 的值为 <code>0</code> 。</li>
+<li>第 <code>18</code> 行，使用 <code>%T</code> 格式化参数，打印变量 <code>a</code> 本身的类型。</li>
+<li>第 <code>21</code> 行，将 <code>a2</code> 声明为 <code>IntAlias</code> 类型，此时打印 <code>a2</code> 的值为 <code>0</code> 。</li>
+<li>第 <code>23</code> 行，打印 <code>a2</code> 变量的类型。</li>
+</ul>
+<p>结果显示 <code>a</code> 的类型是 <code>main.NewInt</code> ，表示 <code>main</code> 包下定义的 <code>NewInt</code> 类型，<code>a2</code> 类型是 <code>int</code> ，<code>IntAlias</code> 类型只会在代码中存在，编译完成时，不会有 <code>IntAlias</code> 类型。</p>
+<h3 id="非本地类型不能定义方法"><a href="#非本地类型不能定义方法" class="headerlink" title="非本地类型不能定义方法"></a>非本地类型不能定义方法</h3><p>能够随意地为各种类型起名字，是否意味着可以在自己包里为这些类型任意添加方法呢？参见下面的代码演示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    "time"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 定义time.Duration的别名为MyDuration</span><br><span class="line">type MyDuration = time.Duration</span><br><span class="line"></span><br><span class="line">// 为MyDuration添加一个函数</span><br><span class="line">func (m MyDuration) EasySet(a string) {</span><br><span class="line"></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>8</code> 行，为 <code>time.Duration</code> 设定一个类型别名叫 <code>MyDuration</code> 。</li>
+<li>第 <code>11</code> 行，为这个别名添加一个方法。</li>
+</ul>
+<p>编译上面代码报错，信息如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">cannot define new methods on non-local type time.Duration</span><br></pre></td></tr></tbody></table></figure>
+<p>编译器提示：不能在一个非本地的类型 <code>time.Duration</code> 上定义新方法，非本地类型指的就是 <code>time.Duration</code> 不是在 <code>main</code> 包中定义的，而是在 <code>time</code> 包中定义的，与 <code>main</code> 包不在同一个包中，因此不能为不在一个包中的类型定义方法。</p>
+<p>解决这个问题有下面两种方法：</p>
+<ul>
+<li>将第 <code>8</code> 行修改为 <code>type MyDuration time.Duration</code> ，也就是将 <code>MyDuration</code> 从别名改为类型；</li>
+<li>将 <code>MyDuration</code> 的别名定义放在 <code>time</code> 包中。</li>
+</ul>
+<h3 id="在结构体成员嵌入时使用别名"><a href="#在结构体成员嵌入时使用别名" class="headerlink" title="在结构体成员嵌入时使用别名"></a>在结构体成员嵌入时使用别名</h3><p>当类型别名作为结构体嵌入的成员时会发生什么情况呢？请参考下面的代码。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">    "reflect"</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 定义商标结构</span><br><span class="line">type Brand struct {</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">// 为商标结构添加Show()方法</span><br><span class="line">func (t Brand) Show() {</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">// 为Brand定义一个别名FakeBrand</span><br><span class="line">type FakeBrand = Brand</span><br><span class="line"></span><br><span class="line">// 定义车辆结构</span><br><span class="line">type Vehicle struct {</span><br><span class="line">    // 嵌入两个结构</span><br><span class="line">    FakeBrand</span><br><span class="line">    Brand</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">func main() {</span><br><span class="line"></span><br><span class="line">    // 声明变量a为车辆类型</span><br><span class="line">    var a Vehicle</span><br><span class="line"></span><br><span class="line">    // 指定调用FakeBrand的Show</span><br><span class="line">    a.FakeBrand.Show()</span><br><span class="line"></span><br><span class="line">    // 取a的类型反射对象</span><br><span class="line">    ta := reflect.TypeOf(a)</span><br><span class="line"></span><br><span class="line">    // 遍历a的所有成员</span><br><span class="line">    for i := 0; i &lt; ta.NumField(); i++ {</span><br><span class="line"></span><br><span class="line">        // a的成员信息</span><br><span class="line">        f := ta.Field(i)</span><br><span class="line"></span><br><span class="line">        // 打印成员的字段名和类型</span><br><span class="line">        fmt.Printf("FieldName: %v, FieldType: %v\n", f.Name, f.Type.Name())</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>代码输出如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">FieldName: FakeBrand, FieldType: Brand</span><br><span class="line">FieldName: Brand, FieldType: Brand</span><br></pre></td></tr></tbody></table></figure>
+<p>代码说明如下：</p>
+<ul>
+<li>第 <code>9</code> 行，定义商标结构。</li>
+<li>第 <code>13</code> 行，为商标结构添加 <code>Show()</code> 方法。</li>
+<li>第 <code>17</code> 行，为 <code>Brand</code> 定义一个别名 <code>FakeBrand</code>。</li>
+<li>第 <code>20～25</code> 行，定义车辆结构 <code>Vehicle</code> ，嵌入 <code>FakeBrand</code> 和 <code>Brand</code> 结构。</li>
+<li>第 <code>30</code> 行，将 <code>Vechicle</code> 实例化为 <code>a</code> 。</li>
+<li>第 <code>33</code> 行，显式调用 <code>Vehicle</code> 中 <code>FakeBrand</code> 的 <code>Show()</code> 方法。</li>
+<li>第 <code>36</code> 行，使用反射取变量 <code>a</code> 的反射类型对象，以查看其成员类型。</li>
+<li>第 <code>39～42</code> 行，遍历 <code>a</code> 的结构体成员。</li>
+<li>第 <code>45</code> 行，打印 <code>Vehicle</code> 类型所有成员的信息。</li>
+</ul>
+<p>这个例子中，<code>FakeBrand</code> 是 <code>Brand</code> 的一个别名，在 <code>Vehicle</code> 中嵌入 <code>FakeBrand</code> 和 <code>Brand</code> 并不意味着嵌入两个 <code>Brand</code>，<code>FakeBrand</code> 的类型会以名字的方式保留在 <code>Vehicle</code> 的成员中。</p>
+<p>如果尝试将第 <code>33</code> 行改为：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">a.Show()</span><br></pre></td></tr></tbody></table></figure>
+<p>编译器将发生报错：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">ambiguous selector a.Show</span><br></pre></td></tr></tbody></table></figure>
+<p>在调用 <code>Show()</code> 方法时，因为两个类型都有 <code>Show()</code> 方法，会发生歧义，证明 <code>FakeBrand</code> 的本质确实是 <code>Brand</code> 类型。</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>注释在程序中的作用是对程序进行注解和说明，便于对源码的阅读。编译系统在对源代码进行编译时会自动忽略注释的部分，因此注释对于程序的功能实现不起任何作用。在源码中适当地添加注释，能够提高源码的可读性。</p>
+<p><code>Go</code> 语言的注释主要分成两类，分别是单行注释和多行注释。</p>
+<ul>
+<li>单行注释简称行注释，是最常见的注释形式，可以在任何地方使用以 <code>//</code> 开头的单行注释；</li>
+<li>多行注释简称块注释，以 <code>/*</code> 开头，并以 <code>*/</code> 结尾，且不可以嵌套使用，多行注释一般用于包的文档描述或注释成块的代码片段。</li>
+</ul>
+<p>单行注释的格式如下所示:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">//单行注释</span><br></pre></td></tr></tbody></table></figure>
+<p>多行注释的格式如下所示:</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">/*</span><br><span class="line">第一行注释</span><br><span class="line">第二行注释</span><br><span class="line">...</span><br><span class="line">*/</span><br></pre></td></tr></tbody></table></figure>
+<p>每一个包都应该有相关注释，在使用 <code>package</code> 语句声明包名之前添加相应的注释，用来对包的功能及作用进行简要说明。</p>
+<p>同时，在 <code>package</code> 语句之前的注释内容将被默认认为是这个包的文档说明。一个包可以分散在多个文件中，但是只需要对其中一个进行注释说明即可。</p>
+<p>在多段注释之间可以使用空行分隔加以区分，如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// Package superman implements methods for saving the world.</span><br><span class="line">//</span><br><span class="line">// Experience has shown that a small number of procedures can prove</span><br><span class="line">// helpful when attempting to save the world.</span><br><span class="line">package superman</span><br></pre></td></tr></tbody></table></figure>
+<p>对于代码中的变量、常量、函数等对象最好也都加上对应的注释，这样有利于后期对代码进行维护，例如下面代码中对 <code>enterOrbit</code> 函数的注释：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">// enterOrbit causes Superman to fly into low Earth orbit, a position</span><br><span class="line">// that presents several possibilities for planet salvation.</span><br><span class="line">func enterOrbit() error {</span><br><span class="line">   ...</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>当开发人员需要了解包的一些情况时，可以使用 godoc 来显示包的文档说明，下面来介绍一下 godoc 工具的使用。</p>
+<h3 id="godoc-工具"><a href="#godoc-工具" class="headerlink" title="godoc 工具"></a>godoc 工具</h3><p><code>godoc</code> 工具会从 <code>Go</code> 程序和包文件中提取顶级声明的首行注释以及每个对象的相关注释，并生成相关文档，也可以作为一个提供在线文档浏览的 <code>web</code> 服务器，<code>Go</code> <a target="_blank" rel="noopener" href="https://golang.google.cn/">语言官网</a>就是通过这种形式实现的。</p>
+<p>但是<code>Go</code>语言 <code>1.13</code> 版本移除了 <code>godoc</code> 工具，大家可以通过 <code>go get</code> 命令来获取 <code>godoc</code> 工具。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">go get golang.org/x/tools/cmd/godoc</span><br></pre></td></tr></tbody></table></figure>
+<p>由于防火墙的原因，国内的用户可能无法通过 <code>go get</code> 命令来获取 <code>godoc</code> 工具，这时候就需要大家来手动操作了。</p>
+<ul>
+<li>首先从 <a target="_blank" rel="noopener" href="https://github.com/golang/tools.git">GitHub</a> 下载 <code>golang.org/x/tools</code> 包；</li>
+<li>然后将下载得到的文件解压到 <code>GOPATH</code> 下的 <code>src\golang.org\x\tools</code> 目录中，没有的话可以手动创建；</li>
+<li>打开 <code>GOPATH</code> 下的 <code>src\golang.org\x\tools\cmd\godoc</code> 目录，在该目录下打开命令行工具，并执行 <code>go build</code> 命令，生成 <code>godoc.exe</code> 可执行文件；</li>
+<li>最后，将生成的 <code>godoc.exe</code> 文件移动到 <code>GOPATH</code> 下的 <code>bin</code> 目录中。（需要把 <code>GOPATH</code> 下的 <code>bin</code> 目录添加到环境变量 <code>Path</code> 中）</li>
+</ul>
+<p>完成上述操作后就可以使用 <code>godoc</code> 工具了，<code>godoc</code> 工具一般有以下几种用法：</p>
+<ul>
+<li><code>go doc package</code>：获取包的文档注释，例如 <code>go doc fmt</code> 会显示使用 <code>godoc</code> 生成的 <code>fmt</code> 包的文档注释；</li>
+<li><code>go doc package/subpackage</code>：获取子包的文档注释，例如 <code>go doc container/list</code>；</li>
+<li><code>go doc package function</code>：获取某个函数在某个包中的文档注释，例如 <code>go doc fmt Printf</code> 会显示有关 <code>fmt.Printf()</code> 的使用说明。</li>
+</ul>
+<p>下图演示了使用go doc 命令来获取包的文档注释：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">godoc package main</span><br></pre></td></tr></tbody></table></figure>
+<p><code>godoc</code> 工具还可以获取 <code>Go</code> 安装目录下 <code>../go/src</code> 中的注释内容，并将这些注释内容整合到 <code>web</code> 服务器中供我们预览。在命令行输入 <code>godoc -http=:6060</code> ，然后使用浏览器打开 <code>http://localhost:6060</code> 后，就可以看到本地文档浏览服务器提供的页面。</p>
+<h2 id="关键字和标识符"><a href="#关键字和标识符" class="headerlink" title="关键字和标识符"></a>关键字和标识符</h2><p><code>Go</code> 语言的词法元素包括 <code>5</code> 种，分别是标识符<code>（identifier）</code>、关键字<code>（keyword）</code>、操作符<code>（operator）</code>、分隔符<code>（delimiter）</code>、字面量<code>（literal）</code>，它们是组成 <code>Go</code> 语言代码和程序的最基本单位。</p>
+<p>本节我们主要来介绍一下 <code>Go</code> 语言中的关键字和标识符。</p>
+<h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><p>关键字即是被Go语言赋予了特殊含义的单词，也可以称为保留字。</p>
+<p>Go语言中的关键字一共有 25 个：</p>
+<p>|:——:|:——:|:——:|:——:|:——:|<br>|break|default|func|interface|select|<br>|case|defer|go|map|struct|<br>|chan|else|goto|package|switch|<br>|const|fallthrough|if|range|type|<br>|continue|for|import|return|var|</p>
+<p>之所以刻意地将 <code>Go</code> 语言中的关键字保持的这么少，是为了简化在编译过程中的代码解析。和其它语言一样，关键字不能够作标识符使用。</p>
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><p>标识符是指 <code>Go</code> 语言对各种变量、方法、函数等命名时使用的字符序列，标识符由若干个字母、下划线_、和数字组成，且第一个字符必须是字母。通俗的讲就是凡可以自己定义的名称都可以叫做标识符。</p>
+<p>下划线<em>是一个特殊的标识符，称为空白标识符，它可以像其他标识符那样用于变量的声明或赋值（任何类型都可以赋值给它），但任何赋给这个标识符的值都将被抛弃，因此这些值不能在后续的代码中使用，也不可以使用</em>作为变量对其它变量进行赋值或运算。</p>
+<p>在使用标识符之前必须进行声明，声明一个标识符就是将这个标识符与常量、类型、变量、函数或者代码包绑定在一起。在同一个代码块内标识符的名称不能重复。</p>
+<p>标识符的命名需要遵守以下规则：</p>
+<ul>
+<li>由 <code>26</code> 个英文字母、<code>0~9</code>、<code>_</code> 组成；</li>
+<li>不能以数字开头，例如 <code>var 1num int</code> 是错误的；</li>
+<li><code>Go</code> 语言中严格区分大小写；</li>
+<li>标识符不能包含空格；</li>
+<li>不能以系统保留关键字作为标识符，比如 <code>break</code> ，<code>if</code> 等等。</li>
+</ul>
+<p>命名标识符时还需要注意以下几点：</p>
+<ul>
+<li>标识符的命名要尽量采取简短且有意义；</li>
+<li>不能和标准库中的包名重复；</li>
+<li>为变量、函数、常量命名时采用驼峰命名法，例如 <code>stuName</code>、<code>getVal</code> ；</li>
+</ul>
+<p>当然 <code>Go</code> 语言中的变量、函数、常量名称的首字母也可以大写，如果首字母大写，则表示它可以被其它的包访问（类似于 <code>Java</code> 中的 <code>public</code> ）；如果首字母小写，则表示它只能在本包中使用 (类似于 <code>Java</code> 中 <code>private</code> ）。</p>
+<p>在 <code>Go</code> 语言中还存在着一些特殊的标识符，叫做预定义标识符，如下表所示：</p>
+<p>|:——:|:——:|:——:|:——:|:——:|:——:|:——:|:——:|:——:|<br>|append|bool|byte|cap|close|complex|complex64|complex128|uint16|<br>|copy|false|float32|float64|imag|int|int8|int16|uint32|<br>|int32|int64|iota|len|make|new|nil|panic|uint64|<br>|print|println|real|recover|string|true|uint|uint8|uintptr|</p>
+<p>预定义标识符一共有 <code>36</code> 个，主要包含 <code>Go</code> 语言中的基础数据类型和内置函数，这些预定义标识符也不可以当做标识符来使用。</p>
+<h2 id="运算符的优先级"><a href="#运算符的优先级" class="headerlink" title="运算符的优先级"></a>运算符的优先级</h2><p>运算符是用来在程序运行时执行数学或逻辑运算的，在 <code>Go</code> 语言中，一个表达式可以包含多个运算符，当表达式中存在多个运算符时，就会遇到优先级的问题，此时应该先处理哪个运算符呢？这个就由 <code>Go</code> 语言运算符的优先级来决定的。</p>
+<p>比如对于下面的表达式：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">var a, b, c int = 16, 4, 2</span><br><span class="line">d := a + b*c</span><br></pre></td></tr></tbody></table></figure>
+<p>对于表达式 <code>a + b * c</code> ，如果按照数学规则推导，应该先计算乘法，再计算加法；<code>b * c</code> 的结果为 <code>8</code> ，<code>a + 8</code> 的结果为 <code>24</code> ，所以 <code>d</code> 最终的值也是 <code>24</code> 。实际上 <code>Go</code> 语言也是这样处理的，先计算乘法再计算加法，和数据中的规则一样，读者可以亲自验证一下。</p>
+<p>先计算乘法后计算加法，说明乘法运算符的优先级比加法运算符的优先级高。所谓优先级，就是当多个运算符出现在同一个表达式中时，先执行哪个运算符。</p>
+<p><code>Go</code> 语言有几十种运算符，被分成十几个级别，有的运算符优先级不同，有的运算符优先级相同，请看下表。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">优先级</th>
+<th style="text-align:center">分类</th>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">结合性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">逗号运算符</td>
+<td style="text-align:center"><code>,</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">赋值运算符</td>
+<td style="text-align:center">`=、+=、-=、*=、/=、 %=、 &gt;=、 &lt;&lt;=、&amp;=、^=、</td>
+<td style="text-align:center">=`</td>
+<td>从右到左</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">逻辑或</td>
+<td style="text-align:center">`</td>
+<td style="text-align:center"></td>
+<td>`</td>
+<td>从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">逻辑与</td>
+<td style="text-align:center"><code>&amp;&amp;</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">按位或</td>
+<td style="text-align:center">`</td>
+<td style="text-align:center">`</td>
+<td>从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">按位异或</td>
+<td style="text-align:center"><code>^</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">按位与</td>
+<td style="text-align:center"><code>&amp;</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">相等/不等</td>
+<td style="text-align:center"><code>==、!=</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">关系运算符</td>
+<td style="text-align:center"><code>&lt;、&lt;=、&gt;、&gt;=</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">位移运算符</td>
+<td style="text-align:center"><code>&lt;&lt;、&gt;&gt;</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">加法/减法</td>
+<td style="text-align:center"><code>+、-</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">乘法/除法/取余</td>
+<td style="text-align:center"><code>*（乘号）、/、%</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:center">单目运算符</td>
+<td style="text-align:center"><code>!、*（指针）、&amp; 、++、--、+（正号）、-（负号）</code></td>
+<td style="text-align:center">从右到左</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center">后缀运算符</td>
+<td style="text-align:center"><code>( )、[ ]、-&gt;</code></td>
+<td style="text-align:center">从左到右</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>注意：优先级值越大，表示优先级越高。</p>
+<p>一下子记住所有运算符的优先级并不容易，还好 <code>Go</code> 语言中大部分运算符的优先级和数学中是一样的，大家在以后的编程过程中也会逐渐熟悉起来。如果实在搞不清，可以加括号，就像下面这样：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">d := a + (b * c)</span><br></pre></td></tr></tbody></table></figure>
+<p>括号的优先级是最高的，括号中的表达式会优先执行，这样各个运算符的执行顺序就一目了然了。</p>
+<p>运算符的结合性是指相同优先级的运算符在同一个表达式中，且没有括号的时候，操作数计算的顺序，通常有从左到右和从右到左两种方式，例如，<code>+</code> 加法运算符的结合性是从左到右，那么表达式 <code>a + b + c</code> 则可以理解为为 <code>(a + b) + c</code> 。</p>
+<h2 id="字符串和数值类型的转换"><a href="#字符串和数值类型的转换" class="headerlink" title="字符串和数值类型的转换"></a>字符串和数值类型的转换</h2><p>在实际开发中我们往往需要对一些常用的数据类型进行转换，如 <code>string</code> 、<code>int</code> 、<code>int64</code> 、<code>float</code> 等数据类型之间的转换，<code>Go</code> 语言中的 <code>strconv</code> 包为我们提供了字符串和基本数据类型之间的转换功能。</p>
+<p><code>strconv</code> 包中常用的函数包括 <code>Atoi()</code> 、<code>Itia()</code> 、<code>parse</code> 系列函数、<code>format</code> 系列函数、<code>append</code> 系列函数等，下面就来分别介绍一下。</p>
+<h3 id="string-与-int-类型之间的转换"><a href="#string-与-int-类型之间的转换" class="headerlink" title="string 与 int 类型之间的转换"></a>string 与 int 类型之间的转换</h3><p>字符串和整型之间的转换是我们平时编程中使用的最多的，下面就来介绍一下具体的操作。</p>
+<h4 id="Itoa-：整型转字符串"><a href="#Itoa-：整型转字符串" class="headerlink" title="Itoa()：整型转字符串"></a>Itoa()：整型转字符串</h4><p>Itoa() 函数用于将 int 类型数据转换为对应的字符串类型，函数签名如下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func Itoa(i int) string</span><br></pre></td></tr></tbody></table></figure>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    num := 100</span><br><span class="line">    str := strconv.Itoa(num)</span><br><span class="line">    fmt.Printf("type:%T value:%#v\n", str, str)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type:string value:"100"</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="Atoi-：字符串转整型"><a href="#Atoi-：字符串转整型" class="headerlink" title="Atoi()：字符串转整型"></a>Atoi()：字符串转整型</h4><p><code>Atoi()</code> 函数用于将字符串类型的整数转换为 <code>int</code> 类型，函数签名如下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func Atoi(s string) (i int, err error)</span><br></pre></td></tr></tbody></table></figure>
+<p>通过函数签名可以看出 <code>Atoi()</code> 函数有两个返回值，<code>i</code> 为转换成功的整型，<code>err</code> 在转换成功是为空转换失败时为相应的错误信息。</p>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    str1 := "110"</span><br><span class="line">    str2 := "s100"</span><br><span class="line">    num1, err := strconv.Atoi(str1)</span><br><span class="line">    if err != nil {</span><br><span class="line">        fmt.Printf("%v 转换失败！", str1)</span><br><span class="line">    } else {</span><br><span class="line">        fmt.Printf("type:%T value:%#v\n", num1, num1)</span><br><span class="line">    }</span><br><span class="line">    num2, err := strconv.Atoi(str2)</span><br><span class="line">    if err != nil {</span><br><span class="line">        fmt.Printf("%v 转换失败！", str2)</span><br><span class="line">    } else {</span><br><span class="line">        fmt.Printf("type:%T value:%#v\n", num2, num2)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下所示：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type:int value:110</span><br><span class="line">s100 转换失败！</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="Parse-系列函数"><a href="#Parse-系列函数" class="headerlink" title="Parse 系列函数"></a>Parse 系列函数</h3><p><code>Parse</code> 系列函数用于将字符串转换为指定类型的值，其中包括 <code>ParseBool()</code> 、<code>ParseFloat()</code> 、<code>ParseInt()</code> 、<code>ParseUint()</code> 。</p>
+<h4 id="ParseBool"><a href="#ParseBool" class="headerlink" title="ParseBool()"></a>ParseBool()</h4><p><code>ParseBool()</code> 函数用于将字符串转换为 <code>bool</code> 类型的值，它只能接受 <code>1</code> 、<code>0</code> 、<code>t</code> 、<code>f</code> 、<code>T</code> 、<code>F</code> 、<code>true</code> 、<code>false</code> 、<code>True</code> 、<code>False</code> 、<code>TRUE</code> 、<code>FALSE</code> ，其它的值均返回错误，函数签名如下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func ParseBool(str string) (value bool, err error)</span><br></pre></td></tr></tbody></table></figure>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    str1 := "110"</span><br><span class="line">    boo1, err := strconv.ParseBool(str1)</span><br><span class="line">    if err != nil {</span><br><span class="line">        fmt.Printf("str1: %v\n", err)</span><br><span class="line">    } else {</span><br><span class="line">        fmt.Println(boo1)</span><br><span class="line">    }</span><br><span class="line">    str2 := "t"</span><br><span class="line">    boo2, err := strconv.ParseBool(str2)</span><br><span class="line">    if err != nil {</span><br><span class="line">        fmt.Printf("str2: %v\n", err)</span><br><span class="line">    } else {</span><br><span class="line">        fmt.Println(boo2)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">str1: strconv.ParseBool: parsing "110": invalid syntax</span><br><span class="line">true</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="ParseInt"><a href="#ParseInt" class="headerlink" title="ParseInt()"></a>ParseInt()</h4><p><code>ParseInt()</code> 函数用于返回字符串表示的整数值（可以包含正负号），函数签名如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func ParseInt(s string, base int, bitSize int) (i int64, err error)</span><br></pre></td></tr></tbody></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><code>base</code> 指定进制，取值范围是 <code>2</code> 到 <code>36</code>。如果 <code>base</code> 为 <code>0</code> ，则会从字符串前置判断，“0x”是 <code>16</code> 进制，“0”是 <code>8</code> 进制，否则是 <code>10</code> 进制。</li>
+<li><code>bitSize</code> 指定结果必须能无溢出赋值的整数类型，<code>0</code> 、<code>8</code> 、<code>16</code> 、<code>32</code> 、<code>64</code> 分别代表 <code>int</code> 、<code>int8</code> 、<code>int16</code> 、<code>int32</code> 、<code>int64</code> 。</li>
+<li>返回的 <code>err</code> 是 <code>*NumErr</code> 类型的，如果语法有误，<code>err.Error = ErrSyntax</code> ，如果结果超出类型范围 <code>err.Error = ErrRange</code> 。</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    str := "-11"</span><br><span class="line">    num, err := strconv.ParseInt(str, 10, 0)</span><br><span class="line">    if err != nil {</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    } else {</span><br><span class="line">        fmt.Println(num)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">-11</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="ParseUnit"><a href="#ParseUnit" class="headerlink" title="ParseUnit()"></a>ParseUnit()</h4><p><code>ParseUint()</code> 函数的功能类似于 <code>ParseInt()</code> 函数，但 <code>ParseUint()</code> 函数不接受正负号，用于无符号整型，函数签名如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func ParseUint(s string, base int, bitSize int) (n uint64, err error)</span><br></pre></td></tr></tbody></table></figure>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    str := "11"</span><br><span class="line">    num, err := strconv.ParseUint(str, 10, 0)</span><br><span class="line">    if err != nil {</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    } else {</span><br><span class="line">        fmt.Println(num)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">11</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="ParseFloat"><a href="#ParseFloat" class="headerlink" title="ParseFloat()"></a>ParseFloat()</h4><p><code>ParseFloat()</code> 函数用于将一个表示浮点数的字符串转换为 <code>float</code> 类型，函数签名如下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func ParseFloat(s string, bitSize int) (f float64, err error)</span><br></pre></td></tr></tbody></table></figure>
+<p>参数说明：</p>
+<ul>
+<li>如果 <code>s</code> 合乎语法规则，函数会返回最为接近 <code>s</code> 表示值的一个浮点数（使用 <code>IEEE754</code> 规范舍入）。</li>
+<li><code>bitSize</code> 指定了返回值的类型，<code>32</code> 表示 <code>float32</code>，<code>64</code> 表示 <code>float64</code> ；</li>
+<li>返回值 <code>err</code> 是 <code>*NumErr</code> 类型的，如果语法有误 <code>err.Error=ErrSyntax</code> ，如果返回值超出表示范围，返回值 <code>f</code> 为 <code>±Inf，err.Error= ErrRange</code> 。</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    str := "3.1415926"</span><br><span class="line">    num, err := strconv.ParseFloat(str, 64)</span><br><span class="line">    if err != nil {</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    } else {</span><br><span class="line">        fmt.Println(num)</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">3.1415926</span><br></pre></td></tr></tbody></table></figure>
+<p><code>Parse</code> 系列函数都有两个返回值，第一个返回值是转换后的值，第二个返回值为转化失败的错误信息。</p>
+<h3 id="Format-系列函数"><a href="#Format-系列函数" class="headerlink" title="Format 系列函数"></a>Format 系列函数</h3><p><code>Format</code> 系列函数实现了将给定类型数据格式化为字符串类型的功能，其中包括 <code>FormatBool()</code>、<code>FormatInt()</code>、<code>FormatUint()</code>、<code>FormatFloat()</code>。</p>
+<h4 id="FormatBool"><a href="#FormatBool" class="headerlink" title="FormatBool()"></a>FormatBool()</h4><p><code>FormatBool()</code> 函数可以一个 <code>bool</code> 类型的值转换为对应的字符串类型，函数签名如下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func FormatBool(b bool) string</span><br></pre></td></tr></tbody></table></figure>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    num := true</span><br><span class="line">    str := strconv.FormatBool(num)</span><br><span class="line">    fmt.Printf("type:%T,value:%v\n ", str, str)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type:string,value:true</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="FormatInt"><a href="#FormatInt" class="headerlink" title="FormatInt()"></a>FormatInt()</h4><p>FormatInt() 函数用于将整型数据转换成指定进制并以字符串的形式返回，函数签名如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func FormatInt(i int64, base int) string</span><br></pre></td></tr></tbody></table></figure>
+<p>其中，参数 <code>i</code> 必须是 <code>int64</code> 类型，参数 <code>base</code> 必须在 <code>2</code> 到 <code>36</code> 之间，返回结果中会使用小写字母“a”到“z”表示大于 <code>10</code> 的数字。</p>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    var num int64 = 100</span><br><span class="line">    str := strconv.FormatInt(num, 16)</span><br><span class="line">    fmt.Printf("type:%T,value:%v\n ", str, str)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type:string,value:64</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="FormatUint"><a href="#FormatUint" class="headerlink" title="FormatUint()"></a>FormatUint()</h4><p><code>FormatUint()</code> 函数与 <code>FormatInt()</code> 函数的功能类似，但是参数 <code>i</code> 必须是无符号的 <code>uint64</code> 类型，函数签名如下。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func FormatUint(i uint64, base int) string</span><br></pre></td></tr></tbody></table></figure>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    var num uint64 = 110</span><br><span class="line">    str := strconv.FormatUint(num, 16)</span><br><span class="line">    fmt.Printf("type:%T,value:%v\n ", str, str)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type:string,value:6e</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="FormatFloat"><a href="#FormatFloat" class="headerlink" title="FormatFloat()"></a>FormatFloat()</h4><p><code>FormatFloat()</code> 函数用于将浮点数转换为字符串类型，函数签名如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func FormatFloat(f float64, fmt byte, prec, bitSize int) string</span><br></pre></td></tr></tbody></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><code>bitSize</code> 表示参数 <code>f</code> 的来源类型（<code>32</code> 表示 <code>float32</code>、<code>64</code> 表示 <code>float64</code>），会据此进行舍入。</li>
+<li><code>fmt</code> 表示格式，可以设置为“f”表示 <code>-ddd.dddd</code> 、“b”表示 <code>-ddddp±ddd</code>，指数为二进制、“e”表示 <code>-d.dddde±dd</code> 十进制指数、“E”表示 <code>-d.ddddE±dd</code> 十进制指数、“g”表示指数很大时用“e”格式，否则“f”格式、“G”表示指数很大时用“E”格式，否则“f”格式。</li>
+<li><code>prec</code> 控制精度（排除指数部分）：当参数 <code>fmt</code> 为“f”、“e”、“E”时，它表示小数点后的数字个数；当参数 <code>fmt</code> 为“g”、“G”时，它控制总的数字个数。如果 <code>prec</code> 为 <code>-1</code> ，则代表使用最少数量的、但又必需的数字来表示 <code>f</code> 。</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">func main() {</span><br><span class="line">    var num float64 = 3.1415926</span><br><span class="line">    str := strconv.FormatFloat(num, 'E', -1, 64)</span><br><span class="line">    fmt.Printf("type:%T,value:%v\n ", str, str)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">type:string,value:3.1415926E+00</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="Append-系列函数"><a href="#Append-系列函数" class="headerlink" title="Append 系列函数"></a>Append 系列函数</h3><p><code>Append</code> 系列函数用于将指定类型转换成字符串后追加到一个切片中，其中包含 <code>AppendBool()</code> 、<code>AppendFloat()</code> 、<code>AppendInt()</code> 、<code>AppendUint()</code> 。</p>
+<p><code>Append</code> 系列函数和 <code>Format</code> 系列函数的使用方法类似，只不过是将转换后的结果追加到一个切片中。</p>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">    "fmt"</span><br><span class="line">    "strconv"</span><br><span class="line">)</span><br><span class="line">func main() {</span><br><span class="line">    // 声明一个slice</span><br><span class="line">    b10 := []byte("int (base 10):")</span><br><span class="line">  </span><br><span class="line">    // 将转换为10进制的string，追加到slice中</span><br><span class="line">    b10 = strconv.AppendInt(b10, -42, 10)</span><br><span class="line">    fmt.Println(string(b10))</span><br><span class="line">    b16 := []byte("int (base 16):")</span><br><span class="line">    b16 = strconv.AppendInt(b16, -42, 16)</span><br><span class="line">    fmt.Println(string(b16))</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">int (base 10):-42</span><br><span class="line">int (base 16):-2a</span><br></pre></td></tr></tbody></table></figure>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
+      </tags>
+  </entry>
 </search>
