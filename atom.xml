@@ -6,7 +6,7 @@
   <link href="https://wssjdi.github.io/atom.xml" rel="self"/>
   
   <link href="https://wssjdi.github.io/"/>
-  <updated>2020-10-21T15:44:59.678Z</updated>
+  <updated>2020-10-22T10:27:00.463Z</updated>
   <id>https://wssjdi.github.io/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Go接口</title>
+    <link href="https://wssjdi.github.io/posts/d3175357/"/>
+    <id>https://wssjdi.github.io/posts/d3175357/</id>
+    <published>2020-10-21T15:49:55.000Z</published>
+    <updated>2020-10-22T10:27:00.463Z</updated>
+    
+    
+    <summary type="html">go</summary>
+    
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/tags/go/"/>
+    
+    <category term="接口" scheme="https://wssjdi.github.io/tags/%E6%8E%A5%E5%8F%A3/"/>
+    
+    <category term="面向接口编程" scheme="https://wssjdi.github.io/tags/%E9%9D%A2%E5%90%91%E6%8E%A5%E5%8F%A3%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Go结构体</title>
     <link href="https://wssjdi.github.io/posts/e56582fa/"/>
     <id>https://wssjdi.github.io/posts/e56582fa/</id>
     <published>2020-10-21T06:20:55.000Z</published>
-    <updated>2020-10-21T15:44:59.678Z</updated>
+    <updated>2020-10-21T15:45:58.669Z</updated>
     
     
     <summary type="html">go</summary>
@@ -44,7 +67,7 @@
     <link href="https://wssjdi.github.io/posts/fbeb39a4/"/>
     <id>https://wssjdi.github.io/posts/fbeb39a4/</id>
     <published>2020-10-20T09:47:55.000Z</published>
-    <updated>2020-10-21T06:19:34.129Z</updated>
+    <updated>2020-10-21T15:45:58.664Z</updated>
     
     
     <summary type="html">go</summary>
