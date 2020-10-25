@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>标签: go reflect | Wssjdi</title><meta name="description" content="不负杯中的酒 , 不负心上的人 , 不做寂寞的奴隶 , 不做孤独的鬼"><meta name="keywords" content="Markers,Java,Go,Python,Linux"><meta name="author" content="Wssjdi"><meta name="copyright" content="Wssjdi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/favicon.svg"><link rel="canonical" href="https://wssjdi.github.io/tags/go-reflect/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//pingjs.qq.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="website"><meta property="og:title" content="标签: go reflect"><meta property="og:url" content="https://wssjdi.github.io/tags/go-reflect/"><meta property="og:site_name" content="Wssjdi"><meta property="og:description" content="不负杯中的酒 , 不负心上的人 , 不做寂寞的奴隶 , 不做孤独的鬼"><meta property="og:image" content="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/avatar.png"><meta property="article:published_time" content="2020-10-25T14:43:30.689Z"><meta property="article:modified_time" content="2020-10-25T14:43:30.689Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/css/index.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _mtac = {};
+(function() {
+    var mta = document.createElement("script");
+    mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500730411");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":200,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: Wssjdi","link":"链接: ","source":"来源: Wssjdi","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: {"text":"I,LOVE,YOU,不负,杯中酒,不负,心上人,不做,寂寞的,奴隶,不做,孤独的,鬼","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: '//cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: '//cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: true
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: false,
+  isHighlightShrink: true,
+  isSidebar: false,
+  postUpdate: '2020-10-25 22:43:30'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = '2'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Wssjdi" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">18</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">41</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 读书</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-comment-dots"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 作者</span></a></div></div></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><header class="not-index-bg" id="page-header" style="background-image: url(//cdn.jsdelivr.net/gh/jerryc127/CDN@latest/Photo/tags.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Wssjdi</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fas fa-book"></i><span> 读书</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-comment-dots"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 作者</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="page_site-info"><h1 id="site_title">go reflect</h1></div></header><main class="layout_page" id="content-inner"><div id="tag"><div class="article-sort-title">标签 - go reflect</div><div class="article-sort"><div class="article-sort-item year">2020</div><div class="article-sort-item"><a class="article-sort-item-img" href="/posts/b3ea2e2d/" title="go反射（reflect），Golang反射（reflect）"><img src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//goproxy.cn/assets/images/logo.svg" alt="go反射（reflect），Golang反射（reflect）" onerror="this.onerror=null;this.src='//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/404.jpg'"></a><div class="article-sort-item-info"><div class="article-sort-item-time"><i class="far fa-calendar-alt"></i><time class="post-meta-date-created" datetime="2020-10-25T05:33:55.000Z" title="发表于 2020-10-25 13:33:55">2020-10-25</time></div><a class="article-sort-item-title" href="/posts/b3ea2e2d/" title="go反射（reflect），Golang反射（reflect）">go反射（reflect），Golang反射（reflect）</a></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Wssjdi</div><div class="author-info__description">不负杯中的酒 , 不负心上的人 , 不做寂寞的奴隶 , 不做孤独的鬼</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">18</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">41</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div><a class="button--animated" id="card-info-btn" href="https://github.com/wssjdi"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="//github.com/wssjdi" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:wssjdi@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="//www.zhihu.com/" target="_blank" title="知乎"><i class="fab fa-zhihu"></i></a></div></div></div><div class="sticky_layout"><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">我的博客上线啦，欢迎大家来围观~！</div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/543a448f/" title="go文件处理"><img src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//goproxy.cn/assets/images/logo.svg" onerror="this.onerror=null;this.src='//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/404.jpg'" alt="go文件处理"/></a><div class="content"><a class="title" href="/posts/543a448f/" title="go文件处理">go文件处理</a><time datetime="2020-10-25T13:25:55.000Z" title="发表于 2020-10-25 21:25:55">2020-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/b3ea2e2d/" title="go反射（reflect），Golang反射（reflect）"><img src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//goproxy.cn/assets/images/logo.svg" onerror="this.onerror=null;this.src='//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/404.jpg'" alt="go反射（reflect），Golang反射（reflect）"/></a><div class="content"><a class="title" href="/posts/b3ea2e2d/" title="go反射（reflect），Golang反射（reflect）">go反射（reflect），Golang反射（reflect）</a><time datetime="2020-10-25T05:33:55.000Z" title="发表于 2020-10-25 13:33:55">2020-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/eae873a8/" title="go 并发，Golang并发"><img src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//goproxy.cn/assets/images/logo.svg" onerror="this.onerror=null;this.src='//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/404.jpg'" alt="go 并发，Golang并发"/></a><div class="content"><a class="title" href="/posts/eae873a8/" title="go 并发，Golang并发">go 并发，Golang并发</a><time datetime="2020-10-24T07:24:55.000Z" title="发表于 2020-10-24 15:24:55">2020-10-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bd026676/" title="Go 包"><img src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//goproxy.cn/assets/images/logo.svg" onerror="this.onerror=null;this.src='//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/404.jpg'" alt="Go 包"/></a><div class="content"><a class="title" href="/posts/bd026676/" title="Go 包">Go 包</a><time datetime="2020-10-22T10:31:55.000Z" title="发表于 2020-10-22 18:31:55">2020-10-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d3175357/" title="Go接口"><img src="//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/loading.gif" data-original="//goproxy.cn/assets/images/logo.svg" onerror="this.onerror=null;this.src='//cdn.jsdelivr.net/gh/wssjdi/statics/imgs/404.jpg'" alt="Go接口"/></a><div class="content"><a class="title" href="/posts/d3175357/" title="Go接口">Go接口</a><time datetime="2020-10-21T15:49:55.000Z" title="发表于 2020-10-21 23:49:55">2020-10-21</time></div></div></div></div></div><div class="card-widget card-newest-comments"><div class="card-content"><div class="item-headline"><i class="fas fa-bolt"></i><span>最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Hexo/"><span class="card-category-list-name">Hexo</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/SpringBoot-Vue/"><span class="card-category-list-name">SpringBoot+Vue</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/blog/"><span class="card-category-list-name">blog</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/document/"><span class="card-category-list-name">document</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/go/"><span class="card-category-list-name">go</span><span class="card-category-list-count">14</span></a></li>
+            
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href='/tags/Blog/' style='font-size:1.19em; color:rgb(170, 45, 123)'>Blog</a><a href='/tags/Hash/' style='font-size:1.25em; color:rgb(127, 112, 136)'>Hash</a><a href='/tags/Hexo/' style='font-size:1.36em; color:rgb(24, 96, 113)'>Hexo</a><a href='/tags/Maven/' style='font-size:1.14em; color:rgb(195, 146, 132)'>Maven</a><a href='/tags/SpringBoot/' style='font-size:1.40em; color:rgb(36, 140, 163)'>SpringBoot</a><a href='/tags/Vue/' style='font-size:1.27em; color:rgb(107, 49, 102)'>Vue</a><a href='/tags/docker/' style='font-size:1.16em; color:rgb(13, 0, 116)'>docker</a><a href='/tags/dubbo/' style='font-size:1.33em; color:rgb(87, 78, 136)'>dubbo</a><a href='/tags/go/' style='font-size:1.13em; color:rgb(101, 118, 169)'>go</a><a href='/tags/go-dubbo/' style='font-size:1.31em; color:rgb(61, 8, 192)'>go dubbo</a><a href='/tags/go-mod/' style='font-size:1.36em; color:rgb(147, 14, 117)'>go mod</a><a href='/tags/go-reflect/' style='font-size:1.15em; color:rgb(161, 35, 168)'>go reflect</a><a href='/tags/go-test/' style='font-size:1.49em; color:rgb(113, 17, 69)'>go test</a><a href='/tags/go-%E5%8F%8D%E5%B0%84/' style='font-size:1.18em; color:rgb(140, 137, 165)'>go 反射</a><a href='/tags/go-%E5%B9%B6%E5%8F%91/' style='font-size:1.35em; color:rgb(55, 177, 37)'>go 并发</a><a href='/tags/go-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86/' style='font-size:1.49em; color:rgb(80, 91, 3)'>go 文件处理</a><a href='/tags/gopath/' style='font-size:1.15em; color:rgb(130, 33, 200)'>gopath</a><a href='/tags/goroutine/' style='font-size:1.20em; color:rgb(150, 38, 61)'>goroutine</a><a href='/tags/java/' style='font-size:1.42em; color:rgb(19, 82, 166)'>java</a><a href='/tags/linux/' style='font-size:1.17em; color:rgb(146, 45, 40)'>linux</a><a href='/tags/mysql/' style='font-size:1.30em; color:rgb(26, 55, 198)'>mysql</a><a href='/tags/nginx/' style='font-size:1.23em; color:rgb(130, 54, 107)'>nginx</a><a href='/tags/package/' style='font-size:1.23em; color:rgb(83, 95, 82)'>package</a><a href='/tags/pom-xml/' style='font-size:1.43em; color:rgb(144, 145, 42)'>pom.xml</a><a href='/tags/redis/' style='font-size:1.30em; color:rgb(35, 62, 177)'>redis</a><a href='/tags/rpc/' style='font-size:1.22em; color:rgb(182, 0, 49)'>rpc</a><a href='/tags/struct/' style='font-size:1.46em; color:rgb(45, 134, 89)'>struct</a><a href='/tags/subject/' style='font-size:1.43em; color:rgb(49, 93, 13)'>subject</a><a href='/tags/%E4%BE%9D%E8%B5%96/' style='font-size:1.13em; color:rgb(175, 22, 65)'>依赖</a><a href='/tags/%E5%87%BD%E6%95%B0/' style='font-size:1.42em; color:rgb(12, 152, 122)'>函数</a><a href='/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/' style='font-size:1.25em; color:rgb(197, 186, 157)'>前后端分离</a><a href='/tags/%E5%8C%85/' style='font-size:1.23em; color:rgb(59, 24, 128)'>包</a><a href='/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/' style='font-size:1.46em; color:rgb(89, 124, 174)'>单元测试</a><a href='/tags/%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95/' style='font-size:1.17em; color:rgb(68, 66, 167)'>基准测试</a><a href='/tags/%E5%AE%B9%E5%99%A8/' style='font-size:1.17em; color:rgb(83, 165, 74)'>容器</a><a href='/tags/%E6%8E%A5%E5%8F%A3/' style='font-size:1.33em; color:rgb(5, 63, 23)'>接口</a><a href='/tags/%E6%95%B0%E7%BB%84/' style='font-size:1.20em; color:rgb(118, 65, 120)'>数组</a><a href='/tags/%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/' style='font-size:1.15em; color:rgb(114, 40, 15)'>流程控制</a><a href='/tags/%E7%BB%93%E6%9E%84%E4%BD%93/' style='font-size:1.33em; color:rgb(29, 25, 4)'>结构体</a><a href='/tags/%E9%9B%86%E5%90%88/' style='font-size:1.21em; color:rgb(200, 138, 83)'>集合</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">十月 2020</span><span class="card-archive-list-count">14</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/09/"><span class="card-archive-list-date">九月 2020</span><span class="card-archive-list-count">4</span></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">18</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2020-09-24T16:00:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2020-10-25T14:43:30.139Z"></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(//cdn.jsdelivr.net/gh/jerryc127/CDN@latest/Photo/tags.jpg)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2020 By Wssjdi</div><div class="footer_custom_text">welcome to my <a href="https://wssjdi.github.io/">blog</a>!</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="//cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/js/utils.js"></script><script src="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/js/main.js"></script><script src="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/js/tw_cn.js"></script><script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.17.0/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+    content = content.replace(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png|webp)/g, '') // remove image link
+    content = content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi, '') // remove url
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon 
+    let defaultIcon = '?d=retro'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    for (let i = 0; i < array.length; i++) {
+      result += '<div class=\'aside-list-item\'>'
+
+      if (true) {
+        result += `<a href='${array[i].url}' class="thumbnail"><img src='${getIcon(array[i].avatar, array[i].mail)}'></a>`
+      }
+
+      result += `<div class='content'>
+      <a class='comment' href='${array[i].url}'>${array[i].content}</a>
+      <div class='name'><span>${array[i].nick}</span><time> / ${btf.diffDate(array[i].date, true)}</time></div>
+      </div></div>`
+    }
+
+    let $dom = document.querySelector('.card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getValineData = () => {
+
+    if (!(AV.applicationId && (AV.applicationKey || AV.masterKey))) {
+      const dataInit = {
+        appId: 'd3KH3pe0YVWpajwOnn9biRFx-gzGzoHsz',
+        appKey: 'qbqkhtBjXAEhixDnsmK3IMKf'
+      }
+
+      if (true) {
+        dataInit.serverURL= 'https://leancloud.cn'
+      }
+
+      AV.init(dataInit)
+    }
+
+    const query = new AV.Query('Comment');
+    query.descending('createdAt').limit(6)
+
+    var valineArray = []
+    query.find().then(comments => {
+      comments.forEach(comment => {
+        valineArray.push({
+          'avatar': comment.get('QQAvatar'),
+          'content': changeContent(comment.get('comment')),
+          'mail': comment.get('mail'),
+          'nick': comment.get('nick'),
+          'url': comment.get('url'),
+          'date': comment.createdAt,
+        })
+      })
+    }).then(function() {
+      saveToLocal.set('leancloud-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+      generateHtml(valineArray)
+    })
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('.card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('leancloud-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        if (typeof window.AV === 'object') {
+          getValineData()
+        } else {
+          $.getScript('https://cdn.jsdelivr.net/npm/leancloud-storage@4.6.1/dist/av-min.js', getValineData)
+        }
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script defer="defer" id="ribbon_piao" mobile="false" src="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/js/third-party/piao.js"></script><script src="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script src="//cdn.jsdelivr.net/gh/wssjdi/wssjdi.github.io/js/third-party/ClickShowText.js" async="async"></script></div><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body></html>
