@@ -6,7 +6,7 @@
   <link href="https://wssjdi.github.io/atom.xml" rel="self"/>
   
   <link href="https://wssjdi.github.io/"/>
-  <updated>2020-10-25T15:02:01.992Z</updated>
+  <updated>2021-06-09T01:38:12.209Z</updated>
   <id>https://wssjdi.github.io/</id>
   
   <author>
@@ -15,6 +15,67 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring FrameWork基础(一)</title>
+    <link href="https://wssjdi.github.io/posts/aa4b0e29/"/>
+    <id>https://wssjdi.github.io/posts/aa4b0e29/</id>
+    <published>2021-06-09T01:33:51.000Z</published>
+    <updated>2021-06-09T01:38:12.209Z</updated>
+    
+    
+    <summary type="html">Spring Core</summary>
+    
+    
+    
+    <category term="spring" scheme="https://wssjdi.github.io/categories/spring/"/>
+    
+    
+    <category term="Spring" scheme="https://wssjdi.github.io/tags/Spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>go gateway</title>
+    <link href="https://wssjdi.github.io/posts/238f595d/"/>
+    <id>https://wssjdi.github.io/posts/238f595d/</id>
+    <published>2020-10-26T01:36:55.000Z</published>
+    <updated>2020-11-16T09:10:36.739Z</updated>
+    
+    
+    <summary type="html">go gateway</summary>
+    
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/tags/go/"/>
+    
+    <category term="go gateway" scheme="https://wssjdi.github.io/tags/go-gateway/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>go compile</title>
+    <link href="https://wssjdi.github.io/posts/50eae218/"/>
+    <id>https://wssjdi.github.io/posts/50eae218/</id>
+    <published>2020-10-25T15:05:55.000Z</published>
+    <updated>2020-10-25T15:05:42.423Z</updated>
+    
+    
+    <summary type="html">go 编译</summary>
+    
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://wssjdi.github.io/tags/go/"/>
+    
+    <category term="go compile" scheme="https://wssjdi.github.io/tags/go-compile/"/>
+    
+  </entry>
   
   <entry>
     <title>go文件处理</title>
@@ -402,33 +463,6 @@
     <category term="java" scheme="https://wssjdi.github.io/tags/java/"/>
     
     <category term="subject" scheme="https://wssjdi.github.io/tags/subject/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux服务器环境部署</title>
-    <link href="https://wssjdi.github.io/posts/bbd277ee/"/>
-    <id>https://wssjdi.github.io/posts/bbd277ee/</id>
-    <published>2020-09-20T12:20:55.000Z</published>
-    <updated>2020-09-26T10:10:44.495Z</updated>
-    
-    
-    <summary type="html">Linux服务器环境部署</summary>
-    
-    
-    
-    <category term="document" scheme="https://wssjdi.github.io/categories/document/"/>
-    
-    
-    <category term="linux" scheme="https://wssjdi.github.io/tags/linux/"/>
-    
-    <category term="redis" scheme="https://wssjdi.github.io/tags/redis/"/>
-    
-    <category term="mysql" scheme="https://wssjdi.github.io/tags/mysql/"/>
-    
-    <category term="docker" scheme="https://wssjdi.github.io/tags/docker/"/>
-    
-    <category term="nginx" scheme="https://wssjdi.github.io/tags/nginx/"/>
     
   </entry>
   
