@@ -6,7 +6,7 @@
   <link href="https://wssjdi.github.io/atom.xml" rel="self"/>
   
   <link href="https://wssjdi.github.io/"/>
-  <updated>2021-06-09T01:38:12.209Z</updated>
+  <updated>2021-10-28T01:32:29.069Z</updated>
   <id>https://wssjdi.github.io/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Mapstruct实体转换神器</title>
+    <link href="https://wssjdi.github.io/posts/5133cec2/"/>
+    <id>https://wssjdi.github.io/posts/5133cec2/</id>
+    <published>2021-10-28T01:58:46.000Z</published>
+    <updated>2021-10-28T01:32:29.069Z</updated>
+    
+    
+    <summary type="html">mapstruct实体转换神器</summary>
+    
+    
+    
+    <category term="mapstruct" scheme="https://wssjdi.github.io/categories/mapstruct/"/>
+    
+    
+    <category term="SpringBoot" scheme="https://wssjdi.github.io/tags/SpringBoot/"/>
+    
+    <category term="Maven" scheme="https://wssjdi.github.io/tags/Maven/"/>
+    
+    <category term="java" scheme="https://wssjdi.github.io/tags/java/"/>
+    
+    <category term="pom.xml" scheme="https://wssjdi.github.io/tags/pom-xml/"/>
+    
+    <category term="mapstruct" scheme="https://wssjdi.github.io/tags/mapstruct/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Spring FrameWork基础(一)</title>
     <link href="https://wssjdi.github.io/posts/aa4b0e29/"/>
     <id>https://wssjdi.github.io/posts/aa4b0e29/</id>
     <published>2021-06-09T01:33:51.000Z</published>
-    <updated>2021-06-09T01:38:12.209Z</updated>
+    <updated>2021-10-28T01:32:26.074Z</updated>
     
     
     <summary type="html">Spring Core</summary>
@@ -40,7 +67,7 @@
     <link href="https://wssjdi.github.io/posts/238f595d/"/>
     <id>https://wssjdi.github.io/posts/238f595d/</id>
     <published>2020-10-26T01:36:55.000Z</published>
-    <updated>2020-11-16T09:10:36.739Z</updated>
+    <updated>2021-10-28T01:32:15.190Z</updated>
     
     
     <summary type="html">go gateway</summary>
@@ -61,7 +88,7 @@
     <link href="https://wssjdi.github.io/posts/50eae218/"/>
     <id>https://wssjdi.github.io/posts/50eae218/</id>
     <published>2020-10-25T15:05:55.000Z</published>
-    <updated>2020-10-25T15:05:42.423Z</updated>
+    <updated>2021-10-28T01:32:08.106Z</updated>
     
     
     <summary type="html">go 编译</summary>
@@ -442,27 +469,6 @@
     <category term="Hexo" scheme="https://wssjdi.github.io/tags/Hexo/"/>
     
     <category term="Blog" scheme="https://wssjdi.github.io/tags/Blog/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JAVA经典面试题</title>
-    <link href="https://wssjdi.github.io/posts/5a6dd2b0/"/>
-    <id>https://wssjdi.github.io/posts/5a6dd2b0/</id>
-    <published>2020-09-23T05:59:49.000Z</published>
-    <updated>2020-09-26T10:03:56.632Z</updated>
-    
-    
-    <summary type="html">JAVA经典面试题</summary>
-    
-    
-    
-    <category term="blog" scheme="https://wssjdi.github.io/categories/blog/"/>
-    
-    
-    <category term="java" scheme="https://wssjdi.github.io/tags/java/"/>
-    
-    <category term="subject" scheme="https://wssjdi.github.io/tags/subject/"/>
     
   </entry>
   
